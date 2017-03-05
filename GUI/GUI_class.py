@@ -19,10 +19,6 @@ class Application(tk.Frame):
         self.master.maxsize(800, 800)
         self.create_widgets()
 
-
-    def create_widgets(self):
-        pass
-
 root = tk.Tk()
 app = Application(master=root)
 app.mainloop()
