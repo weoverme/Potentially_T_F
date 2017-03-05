@@ -5,7 +5,8 @@ Author: Ray Cho
 Date: 4 March 2017
 
 """
-from tkinter import *
+
+import tkinter as tk
 
 
 class Application(tk.Frame):
@@ -13,7 +14,15 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.pack()
+        self.master.title("Potentially T/F")
+        self.master.minsize(500, 700)
+        self.master.maxsize(800, 800)
         self.create_widgets()
+
 
     def create_widgets(self):
         pass
+
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
