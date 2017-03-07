@@ -1,0 +1,21 @@
+Types of Statements
+
+
+I have a bottle.
+I will have a bottle.
+I like bottles.
+I would like to have a bottle.
+I am a bottle.
+I can be a bottle.
+
+There is a bottle. / There are bottles.
+There was a bottle / were bottles.
+There would have been a bottle / bottles.
+There should have been a bottle / bottles.
+There could have been a bottle / bottles.
+
+[replace THERE with HE/SHE/IT]
+
+
+
+

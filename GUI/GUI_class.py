@@ -31,11 +31,13 @@ class MainGUI(tk.Frame):
 class InitialGUI(MainGUI):
     def __init__(self):
         MainGUI.__init__(self, master=None)
+        self.twitter_login_button()
+        self.credits_widget()
 
     def twitter_login_button(self):
         self.twitter_login = tk.Button(self)
         self.twitter_login["text"] = "Log into Twitter"
-        self.twitter_login["command"] = None#get_credentials()
+        self.twitter_login["command"] = None #get_credentials()
         self.twitter_login.pack(side="bottom")
 
     def credits_widget(self):
@@ -49,4 +51,4 @@ class DefaultGUI(MainGUI):
     def __init__(self):
         MainGUI.__init__(self, master=None)
 
-    def
+

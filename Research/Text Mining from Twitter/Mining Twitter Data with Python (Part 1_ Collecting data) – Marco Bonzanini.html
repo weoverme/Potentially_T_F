@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://marcobonzanini.com/xmlrpc.php">
+
+<title>Mining Twitter Data with Python (Part 1: Collecting data) – Marco Bonzanini</title>
+<meta name="google-site-verification" content="VXIZ3mNLDuuyimd-sOy-MqbBomxKbKIIFwM8Ckr8iCg">
+		<script defer="" src="https://sb.scorecardresearch.com/beacon.js"></script><script src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/remote-login.php" type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://marcobonzanini.wordpress.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="alternate" type="application/rss+xml" title="Marco Bonzanini » Feed" href="https://marcobonzanini.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Marco Bonzanini » Comments Feed" href="https://marcobonzanini.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Marco Bonzanini » Mining Twitter Data with Python (Part 1: Collecting data) Comments Feed" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1473172720h&ver=4.6.1-RC1-38499"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="https://s1.wp.com/wp-includes/js/wp-emoji-release.min.js?m=1473172720h&amp;ver=4.6.1-RC1-38499" type="text/javascript"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="all-css-0-1" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/saved_resource" type="text/css" media="all">
+<style id="button-style-inline-css" type="text/css">
+.cat-links, .tags-links { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); }
+</style>
+<link rel="stylesheet" id="button-fonts-css" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="all-css-2-1" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/saved_resource(1)" type="text/css" media="all">
+<link rel="stylesheet" id="print-css-3-1" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/global-print.css" type="text/css" media="print">
+<link rel="stylesheet" id="all-css-4-1" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/saved_resource(2)" type="text/css" media="all">
+<script type="text/javascript" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/saved_resource(3)"></script>
+<link rel="stylesheet" id="all-css-0-2" href="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/style.css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://marcobonzanini.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Fuzzy String Matching in Python" href="https://marcobonzanini.com/2015/02/25/fuzzy-string-matching-in-python/">
+<link rel="next" title="Mining Twitter Data with Python (Part 2: Text Pre-processing)" href="https://marcobonzanini.com/2015/03/09/mining-twitter-data-with-python-part-2/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/">
+<link rel="shortlink" href="http://wp.me/p5y8RO-1c">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fmarcobonzanini.com%2F2015%2F03%2F02%2Fmining-twitter-data-with-python-part-1%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fmarcobonzanini.com%2F2015%2F03%2F02%2Fmining-twitter-data-with-python-part-1%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mining Twitter Data with Python (Part 1: Collecting data)">
+<meta property="og:url" content="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/">
+<meta property="og:description" content="Twitter is a popular social network where users can share short SMS-like messages called tweets. Users share thoughts, links and pictures on Twitter, journalists comment on live events, companies p…">
+<meta property="article:published_time" content="2015-03-02T07:00:01+00:00">
+<meta property="article:modified_time" content="2016-08-04T05:29:51+00:00">
+<meta property="og:site_name" content="Marco Bonzanini">
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@marcobonzanini">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@marcobonzanini">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png">
+<link rel="openid.server" href="https://marcobonzanini.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://marcobonzanini.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://marcobonzanini.com/osd.xml" title="Marco Bonzanini">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+<meta name="theme-color" content="#8ca1a5">
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Marco Bonzanini"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Python, Data Science, Text Analytics"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://marcobonzanini.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Mining Twitter Data with Python (Part 1: Collecting data) | Marco Bonzanini on WordPress.com">
+<meta name="description" content="Twitter is a popular social network where users can share short SMS-like messages called tweets. Users share thoughts, links and pictures on Twitter, journalists comment on live events, companies promote products and engage with customers. The list of different ways to use Twitter could be really long, and with 500 millions of tweets per day,…">
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #8ca1a5; }
+</style>
+<link rel="amphtml" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/amp/"><link rel="stylesheet" type="text/css" href="https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b"><link rel="stylesheet" type="text/css" href="https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;amp;ver=3.0.9b"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css" id="custom-colors-css">#infinite-handle span button:active,#infinite-handle span button:focus,#infinite-handle span button:hover,#infinite-handle span:hover button,.flex-control-paging li a.flex-active,.flex-control-paging li a:hover,.social-links ul a:hover,.tags-links a:hover,.widget_tag_cloud a:hover,button:active,button:focus,button:hover,input[type="button"]:active,input[type="button"]:focus,input[type="button"]:hover,input[type="reset"]:active,input[type="reset"]:focus,input[type="reset"]:hover,input[type="submit"]:active,input[type="submit"]:focus,input[type="submit"]:hover,.page-links span.active-link,.page-links a:hover span.active-link{color:#fff}body{background-color:#8ca1a5}#infinite-handle span button:active,#infinite-handle span button:focus,#infinite-handle span button:hover,#infinite-handle span:hover button,.flex-control-paging li a.flex-active,.flex-control-paging li a:hover,.social-links ul a:hover,.tags-links a:hover,.widget_tag_cloud a:hover,button:active,button:focus,button:hover,input[type="button"]:active,input[type="button"]:focus,input[type="button"]:hover,input[type="reset"]:active,input[type="reset"]:focus,input[type="reset"]:hover,input[type="submit"]:active,input[type="submit"]:focus,input[type="submit"]:hover,.page-links span.active-link,.page-links a:hover span.active-link{background-color:#c62c1e}.bypostauthor>.comment-body:first-of-type .comment-author .avatar,input[type="email"]:focus,input[type="password"]:focus,input[type="search"]:focus,input[type="text"]:focus,input[type="url"]:focus,textarea:focus{border-color:#c62c1e}.tags-links a:hover:after,.widget_tag_cloud a:hover:after{border-left-color:#c62c1e}.tags-links a:hover:before,.widget_tag_cloud a:hover:before{border-top-color:#c62c1e}.tags-links a:hover:before,.widget_tag_cloud a:hover:before,abbr,acronym{border-bottom-color:#c62c1e}#infinite-handle span button:active,#infinite-handle span button:focus,#infinite-handle span button:hover,#infinite-handle span:hover button,button:active,button:focus,button:hover,input[type="button"]:active,input[type="button"]:focus,input[type="button"]:hover,input[type="reset"]:active,input[type="reset"]:focus,input[type="reset"]:hover,input[type="submit"]:active,input[type="submit"]:focus,input[type="submit"]:hover{outline-color:#c62c1e}#infinite-footer .container a:hover,.comment-meta .comment-metadata a:hover,.entry-footer a:hover,.entry-meta a:hover,.required,.site-footer a:hover,.site-title a,.site-title a:visited,a,a.more-link,a.more-link:hover,a:visited{color:#c62c1e}.main-navigation .current-menu-item>a,.main-navigation .current_page_ancestor>a,.main-navigation .current_page_item>a,.main-navigation a:hover,.main-navigation a:visited:hover{color:#c62c1e}</style>
+<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="https://0.gravatar.com/css/hovercard.css?ver=201709y"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="https://0.gravatar.com/css/services.css?ver=201709y"></head>
+
+<body class="single single-post postid-74 single-format-standard custom-background mp6 customizer-styles-applied user-background categories-hidden tags-hidden highlander-enabled highlander-light custom-colors">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#content">Skip to content</a>
+
+	<header id="masthead" class="site-header" role="banner">
+		<div class="site-branding">
+									<h1 class="site-title"><a href="https://marcobonzanini.com/" rel="home">Marco Bonzanini</a></h1>
+			<h2 class="site-description">Python, Data Science, Text Analytics</h2>
+		</div><!-- .site-branding -->
+	</header><!-- #masthead -->
+
+	<nav id="site-navigation" class="main-navigation" role="navigation">
+		<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Menu</button>
+		<div class="menu-pages-container"><ul id="primary-menu" class="menu"><li id="menu-item-36" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-36"><a href="https://marcobonzanini.com/about/">About</a></li>
+<li id="menu-item-61" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-61"><a href="https://marcobonzanini.com/publications/">Writing</a></li>
+<li id="menu-item-311" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-311"><a href="https://marcobonzanini.com/speaking/">Speaking</a></li>
+</ul></div>	</nav><!-- #site-navigation -->
+
+	<!-- #masthead -->
+
+	<div id="content" class="site-content">
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-74" class="post-74 post type-post status-publish format-standard hentry category-data-mining category-python tag-data-mining-2 tag-python-2 tag-twitter">
+	<header class="entry-header">
+		<span class="cat-links"><a href="https://marcobonzanini.com/category/data-mining/" rel="category tag">Data Mining</a> · <a href="https://marcobonzanini.com/category/python/" rel="category tag">Python</a></span>
+					<h1 class="entry-title">Mining Twitter Data with Python (Part 1: Collecting&nbsp;data)</h1>		
+		<div class="entry-meta">
+			<span class="posted-on"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/" rel="bookmark"><time class="entry-date published" datetime="2015-03-02T07:00:01+00:00">March 2, 2015</time><time class="updated" datetime="2016-08-04T05:29:51+00:00">August 4, 2016</time></a></span><span class="byline"> <span class="author vcard"><a class="url fn n" href="https://marcobonzanini.com/author/marcobonzanini/">Marco</a></span></span>		</div>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p><a href="http://www.twitter.com/">Twitter</a> is a popular social network where users can share short SMS-like messages called <em>tweets</em>. Users share thoughts, links and pictures on Twitter, journalists comment on live events, companies promote products and engage with customers. The list of different ways to use Twitter could be really long, and with 500 millions of tweets per day, there’s a lot of data to analyse and to play with.</p>
+<p>This is the first in a series of articles dedicated to mining data on Twitter using Python. In this first part, we’ll see different options to collect data from Twitter. Once we have built a data set, in the next episodes we’ll discuss some interesting data applications.</p>
+<p><em>Update July 2016</em>: my new <a href="https://marcobonzanini.com/2016/08/02/mastering-social-media-mining-with-python/">book on data mining for Social Media</a> is out! Part of the content in this tutorial has been improved and expanded as part of the book, so please have a look. Chapter 2 about mining Twitter is available as a free sample from <a href="https://www.packtpub.com/big-data-and-business-intelligence/mastering-social-media-mining-python">the publisher’s web site</a>, and the companion code with many more examples is available <a href="https://github.com/bonzanini/Book-SocialMediaMiningPython">on my GitHub</a></p>
+<p>Table of Contents of this tutorial:</p>
+<ul>
+<li>Part 1: Collecting Data (this article)</li>
+<li><a href="https://marcobonzanini.com/2015/03/09/mining-twitter-data-with-python-part-2/">Part 2: Text Pre-processing</a></li>
+<li><a href="https://marcobonzanini.com/2015/03/17/mining-twitter-data-with-python-part-3-term-frequencies/">Part 3: Term Frequencies</a></li>
+<li><a href="https://marcobonzanini.com/2015/03/23/mining-twitter-data-with-python-part-4-rugby-and-term-co-occurrences/">Part 4: Rugby and Term Co-Occurrences</a></li>
+<li><a href="https://marcobonzanini.com/2015/04/01/mining-twitter-data-with-python-part-5-data-visualisation-basics/">Part 5: Data Visualisation Basics</a></li>
+<li><a href="https://marcobonzanini.com/2015/05/17/mining-twitter-data-with-python-part-6-sentiment-analysis-basics/">Part 6: Sentiment Analysis Basics</a></li>
+<li><a href="https://marcobonzanini.com/2015/06/16/mining-twitter-data-with-python-and-js-part-7-geolocation-and-interactive-maps/">Part 7: Geolocation and Interactive Maps</a></li>
+</ul>
+<p><em>More updates</em>: fixed version number of Tweepy to avoid problem with Python 3; fixed discussion on <tt>_json</tt> to get the JSON representation of a tweet; added example of <tt>process_or_store()</tt>.</p>
+<h2>Register Your App</h2>
+<p>In order to have access to Twitter data programmatically, we need to create an app that interacts with the Twitter API. </p>
+<p>The first step is the registration of your app. In particular, you need to point your browser to <a href="http://apps.twitter.com/">http://apps.twitter.com</a>, log-in to Twitter (if you’re not already logged in) and register a new application. You can now choose a name and a description for your app (for example “Mining Demo” or similar). You will receive a <em>consumer key</em> and a <em>consumer secret</em>: these are application settings that should always be kept private. From the configuration page of your app, you can also require an access token and an access token secret. Similarly to the consumer keys, these strings must also be kept private: they provide the application access to Twitter on behalf of your account. The default permissions are read-only, which is all we need in our case, but if you decide to change your permission to provide writing features in your app, you must negotiate a new access token.</p>
+<p><strong>Important Note:</strong> there are rate limits in the use of the Twitter API, as well as limitations in case you want to provide a downloadable data-set, see:</p>
+<ul>
+<li><a href="https://dev.twitter.com/overview/terms/agreement-and-policy">https://dev.twitter.com/overview/terms/agreement-and-policy</a>
+</li><li><a href="https://dev.twitter.com/rest/public/rate-limiting">https://dev.twitter.com/rest/public/rate-limiting</a></li>
+</ul>
+<h2>Accessing the Data</h2>
+<p>Twitter provides <a href="https://dev.twitter.com/rest/public">REST APIs</a> you can use to interact with their service. There is also <a href="https://dev.twitter.com/overview/api/twitter-libraries#python">a bunch of Python-based clients</a> out there that we can use without re-inventing the wheel. In particular, <a href="http://tweepy.readthedocs.org/">Tweepy</a> in one of the most interesting and straightforward to use, so let’s install it:</p>
+<pre>pip install tweepy==3.3.0</pre>
+<p><em>Update</em>: the release 3.4.0 of Tweepy has introduced a problem with Python 3, currently fixed on <a href="https://github.com/tweepy/tweepy">github</a> but not yet available with <tt>pip</tt>, for this reason we’re using version 3.3.0 until a new release is available.</p>
+<p><em>More Updates</em>: the release 3.5.0 of Tweepy, already available via pip, seems to solve the problem with Python 3 mentioned above.</p>
+<p>In order to authorise our app to access Twitter on our behalf, we need to use the OAuth interface:</p>
+<pre class="brush: python; title: ; notranslate" title="">import tweepy
+from tweepy import OAuthHandler
+
+consumer_key = 'YOUR-CONSUMER-KEY'
+consumer_secret = 'YOUR-CONSUMER-SECRET'
+access_token = 'YOUR-ACCESS-TOKEN'
+access_secret = 'YOUR-ACCESS-SECRET'
+
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_secret)
+
+api = tweepy.API(auth)
+</pre>
+<p>The <tt>api</tt> variable is now our entry point for most of the operations we can perform with Twitter.</p>
+<p>For example, we can read our own timeline (i.e. our Twitter homepage) with:</p>
+<pre class="brush: python; title: ; notranslate" title="">for status in tweepy.Cursor(api.home_timeline).items(10):
+    # Process a single status
+    print(status.text) 
+</pre>
+<p>Tweepy provides the convenient Cursor interface to iterate through different types of objects. In the example above we’re using <em>10</em> to limit the number of tweets we’re reading, but we can of course access more. The <tt>status</tt> variable is an instance of the <tt>Status()</tt> class, a nice wrapper to access the data. The JSON response from the Twitter API is available in the attribute <tt>_json</tt> (with a leading underscore), which is not the raw JSON string, but a dictionary.</p>
+<p>So the code above can be re-written to process/store the JSON:</p>
+<pre class="brush: python; title: ; notranslate" title="">for status in tweepy.Cursor(api.home_timeline).items(10):
+    # Process a single status
+    process_or_store(status._json) 
+</pre>
+<p>What if we want to have a list of all our followers? There you go:</p>
+<pre class="brush: python; title: ; notranslate" title="">for friend in tweepy.Cursor(api.friends).items():
+    process_or_store(friend._json)
+</pre>
+<p>And how about a list of all our tweets? Simple:</p>
+<pre class="brush: python; title: ; notranslate" title="">for tweet in tweepy.Cursor(api.user_timeline).items():
+    process_or_store(tweet._json)
+</pre>
+<p>In this way we can easily collect tweets (and more) and store them in the original JSON format, fairly easy to convert into different data models depending on our storage (many NoSQL technologies provide some bulk import feature).</p>
+<p>The function <tt>process_or_store()</tt> is a place-holder for your custom implementation. In the simplest form, you could just print out the JSON, one tweet per line:</p>
+<pre class="brush: python; title: ; notranslate" title="">def process_or_store(tweet):
+    print(json.dumps(tweet))
+</pre>
+<h2>Streaming</h2>
+<p>In case we want to “keep the connection open”, and gather all the upcoming tweets about a particular event, the streaming API is what we need. We need to extend the <tt>StreamListener()</tt> to customise the way we process the incoming data. A working example that gathers all the new tweets with the #python hashtag:</p>
+<pre class="brush: python; title: ; notranslate" title="">from tweepy import Stream
+from tweepy.streaming import StreamListener
+
+class MyListener(StreamListener):
+
+    def on_data(self, data):
+        try:
+            with open('python.json', 'a') as f:
+                f.write(data)
+                return True
+        except BaseException as e:
+            print(&amp;quot;Error on_data: %s&amp;quot; % str(e))
+        return True
+
+    def on_error(self, status):
+        print(status)
+        return True
+
+twitter_stream = Stream(auth, MyListener())
+twitter_stream.filter(track=['#python'])
+</pre>
+<p>Depending on the search term, we can gather tons of tweets within a few minutes. This is especially true for live events with a world-wide coverage (World Cups, Super Bowls, Academy Awards, you name it), so keep an eye on the JSON file to understand how fast it grows and consider how many tweets you might need for your tests. The above script will save each tweet on a new line, so you can use the command <tt>wc -l python.json</tt> from a Unix shell to know how many tweets you’ve gathered.</p>
+<p>You can see a minimal working example of the Twitter Stream API in the following Gist:</p>
+<p><a href="https://gist.github.com/bonzanini/af0463b927433c73784d">twitter_stream_downloader.py</a></p>
+<h2>Summary</h2>
+<p>We have introduced <tt>tweepy</tt> as a tool to access Twitter data in a fairly easy way with Python. There are different types of data we can collect, with the obvious focus on the “tweet” object.</p>
+<p>Once we have collected some data, the possibilities in terms of analytics applications are endless. In the next episodes, we’ll discuss some options.</p>
+<p><a href="http://www.twitter.com/marcobonzanini">@MarcoBonzanini</a></p>
+<p>Table of Contents of this tutorial:</p>
+<ul>
+<li>Part 1: Collecting Data (this article)</li>
+<li><a href="https://marcobonzanini.com/2015/03/09/mining-twitter-data-with-python-part-2/">Part 2: Text Pre-processing</a></li>
+<li><a href="https://marcobonzanini.com/2015/03/17/mining-twitter-data-with-python-part-3-term-frequencies/">Part 3: Term Frequencies</a></li>
+<li><a href="https://marcobonzanini.com/2015/03/23/mining-twitter-data-with-python-part-4-rugby-and-term-co-occurrences/">Part 4: Rugby and Term Co-Occurrences</a></li>
+<li><a href="https://marcobonzanini.com/2015/04/01/mining-twitter-data-with-python-part-5-data-visualisation-basics/">Part 5: Data Visualisation Basics</a></li>
+<li><a href="https://marcobonzanini.com/2015/05/17/mining-twitter-data-with-python-part-6-sentiment-analysis-basics/">Part 6: Sentiment Analysis Basics</a></li>
+<li><a href="https://marcobonzanini.com/2015/06/16/mining-twitter-data-with-python-and-js-part-7-geolocation-and-interactive-maps/">Part 7: Geolocation and Interactive Maps</a></li>
+</ul>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-email"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=email" target="_blank" title="Click to email"><span></span><span class="sharing-screen-reader-text">Click to email (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-74" class="share-facebook sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=facebook" target="_blank" title="Share on Facebook"><span></span><span class="sharing-screen-reader-text">Share on Facebook (Opens in new window)</span></a></li><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-74" class="share-twitter sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-74" class="share-google-plus-1 sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-74" class="share-linkedin sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=pocket" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-82018920-74-58ba2b4632051" data-src="//widgets.wp.com/likes/#blog_id=82018920&amp;post_id=74&amp;origin=marcobonzanini.wordpress.com&amp;obj_id=82018920-74-58ba2b4632051" data-name="like-post-frame-82018920-74-58ba2b4632051"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="231" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://marcobonzanini.com/2016/08/02/mastering-social-media-mining-with-python/" title="Mastering Social Media Mining with Python
+
+Great news, my book on data mining for social media is finally out! The title is Mastering Social Media Mining with Python. I&#39;ve been working with Packt Publishing over the past few months, and in July the book has been finalised and released. Links: ebook and paperback on Packt Publishing…" rel="nofollow" data-origin="74" data-position="0">Mastering Social Media Mining with Python</a></span><span class="jp-relatedposts-post-context">In "API"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="101" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://marcobonzanini.com/2015/04/01/mining-twitter-data-with-python-part-5-data-visualisation-basics/" title="Mining Twitter Data with Python: Part 5 - Data Visualisation Basics
+
+A picture is worth a thousand tweets: more often than not, designing a good visual representation of our data, can help us make sense of them and highlight interesting insights. After collecting and analysing Twitter data, the tutorial continues with some notions on data visualisation with Python. Tutorial Table of…" rel="nofollow" data-origin="74" data-position="1">Mining Twitter Data with Python: Part 5 - Data Visualisation Basics</a></span><span class="jp-relatedposts-post-context">In "Data Mining"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="80" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://marcobonzanini.com/2015/03/09/mining-twitter-data-with-python-part-2/" title="Mining Twitter Data with Python (Part 2: Text Pre-processing)
+
+This is the second part of a series of articles about data mining on Twitter. In the previous episode, we have seen how to collect data from Twitter. In this post, we&#39;ll discuss the structure of a tweet and we&#39;ll start digging into the processing steps we need for some…" rel="nofollow" data-origin="74" data-position="2">Mining Twitter Data with Python (Part 2: Text Pre-processing)</a></span><span class="jp-relatedposts-post-context">In "Data Mining"</span></p></div></div></div>			</div><!-- .entry-content -->
+
+			<div class="entry-flair">
+			<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-email"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=email" target="_blank" title="Click to email"><span></span><span class="sharing-screen-reader-text">Click to email (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-74" class="share-facebook sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=facebook" target="_blank" title="Share on Facebook"><span></span><span class="sharing-screen-reader-text">Share on Facebook (Opens in new window)</span></a></li><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-74" class="share-twitter sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-74" class="share-google-plus-1 sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-74" class="share-linkedin sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?share=pocket" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-82018920-74-58ba2b4632425" data-src="//widgets.wp.com/likes/#blog_id=82018920&amp;post_id=74&amp;origin=marcobonzanini.wordpress.com&amp;obj_id=82018920-74-58ba2b4632425" data-name="like-post-frame-82018920-74-58ba2b4632425"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>		</div><!-- .entry-flair -->
+	
+	<footer class="entry-footer">
+		<div class="tags-links"><a href="https://marcobonzanini.com/tag/data-mining-2/" rel="tag">data mining</a> <a href="https://marcobonzanini.com/tag/python-2/" rel="tag">python</a> <a href="https://marcobonzanini.com/tag/twitter/" rel="tag">twitter</a></div>	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+
+			
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://marcobonzanini.com/2015/02/25/fuzzy-string-matching-in-python/" rel="prev"><span class="meta-nav">Previous Post</span> Fuzzy String Matching in&nbsp;Python</a></div><div class="nav-next"><a href="https://marcobonzanini.com/2015/03/09/mining-twitter-data-with-python-part-2/" rel="next"><span class="meta-nav">Next Post</span> Mining Twitter Data with Python (Part 2: Text&nbsp;Pre-processing)</a></div></div>
+	</nav>
+			
+<div id="comments" class="comments-area">
+
+	
+	
+		<h2 class="comments-title">
+	104 thoughts on “<span>Mining Twitter Data with Python (Part 1: Collecting&nbsp;data)</span>”</h2>
+
+			<nav id="comment-nav-above" class="navigation comment-navigation" role="navigation">
+		<h2 class="screen-reader-text">Comment navigation</h2>
+		<div class="nav-links">
+
+			<div class="nav-previous"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-1/#comments">Older Comments</a></div>
+			<div class="nav-next"></div>
+
+		</div><!-- .nav-links -->
+	</nav><!-- #comment-nav-above -->
+
+		<ol class="comment-list">
+			<li id="comment-1461" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="https://steunenberg.wordpress.com/2017/02/01/mining-twitter-data-with-python-part-1-collecting-data/" rel="external nofollow" class="url">Mining Twitter Data with Python (Part 1: Collecting data) « — was einer so denkt —</a> 			</div>
+</li><!-- #comment-## -->
+		<li id="comment-1472" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="https://steunenberg.wordpress.com/2017/02/09/datacamp-data-import/" rel="external nofollow" class="url">DataCamp Data Import « — was einer so denkt —</a> 			</div>
+</li><!-- #comment-## -->
+		<li id="comment-1473" class="comment even thread-even depth-1 parent highlander-comment">
+			<article id="div-comment-1473" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/64099de5d488d452da44232beb7a142d" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-64099de5d488d452da44232beb7a142d-0">						<b class="fn"><a href="http://google/" rel="external nofollow" class="url">Sameque</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1473">
+							<time datetime="2017-02-10T20:06:11+00:00">
+								February 10, 2017 at 8:06 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Dear Marco.<br>
+How do I get twitters from other users that are not from my time line, that is, in general. It’s possible? as? What is the limit of twitters I can get in python at a time.</p>
+<p id="comment-like-1473" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1473&amp;_wpnonce=8f90529d6b" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1473" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1473#respond" onclick="return addComment.moveForm( &quot;div-comment-1473&quot;, &quot;1473&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to Sameque">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1497" class="comment byuser comment-author-marcobonzanini bypostauthor odd alt depth-2 highlander-comment">
+			<article id="div-comment-1497" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://1.gravatar.com/avatar/aa38bb7a9c35bc414da6ec7dcd8d7339?s=60&amp;d=identicon&amp;r=G" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-aa38bb7a9c35bc414da6ec7dcd8d7339-0">						<b class="fn">Marco</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1497">
+							<time datetime="2017-02-28T16:27:58+00:00">
+								February 28, 2017 at 4:27 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Sameque<br>
+you can check out an example to get the a user’s timeline from my book:<br>
+<a href="https://github.com/bonzanini/Book-SocialMediaMiningPython/blob/master/Chap02-03/twitter_get_user_timeline.py" rel="nofollow">https://github.com/bonzanini/Book-SocialMediaMiningPython/blob/master/Chap02-03/twitter_get_user_timeline.py</a><br>
+The rate limits of the Twitter API are described in their documentation:<br>
+<a href="https://dev.twitter.com/rest/public/rate-limiting" rel="nofollow">https://dev.twitter.com/rest/public/rate-limiting</a></p>
+<p>Cheers<br>
+Marco</p>
+<p id="comment-like-1497" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1497&amp;_wpnonce=ff4d51aec4" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1497" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1497#respond" onclick="return addComment.moveForm( &quot;div-comment-1497&quot;, &quot;1497&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to Marco">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-1479" class="comment even thread-odd thread-alt depth-1 parent highlander-comment">
+			<article id="div-comment-1479" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://2.gravatar.com/avatar/5de7ea60ce407c35a4a8193f78486e48?s=60&amp;d=identicon&amp;r=G" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-5de7ea60ce407c35a4a8193f78486e48-0">						<b class="fn">Dharshini Jaiganesh</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1479">
+							<time datetime="2017-02-16T05:21:09+00:00">
+								February 16, 2017 at 5:21 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Very useful post. Can you suggest me how to store these retrieved tweets in MYSQL db?</p>
+<p id="comment-like-1479" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1479&amp;_wpnonce=09cad8a659" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1479" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1479#respond" onclick="return addComment.moveForm( &quot;div-comment-1479&quot;, &quot;1479&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to Dharshini Jaiganesh">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1498" class="comment byuser comment-author-marcobonzanini bypostauthor odd alt depth-2 highlander-comment">
+			<article id="div-comment-1498" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://1.gravatar.com/avatar/aa38bb7a9c35bc414da6ec7dcd8d7339?s=60&amp;d=identicon&amp;r=G" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-aa38bb7a9c35bc414da6ec7dcd8d7339-1">						<b class="fn">Marco</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1498">
+							<time datetime="2017-02-28T16:30:06+00:00">
+								February 28, 2017 at 4:30 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi, I haven’t worked much on MySQL recently, but recent versions support a JSON data type so you just create a column of type JSON and dump the entire tweet in it. Another option is that you read the JSON and normalise the structure with only the fields that you need.<br>
+Cheers,<br>
+Marco</p>
+<p id="comment-like-1498" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1498&amp;_wpnonce=f6af70ab55" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1498" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1498#respond" onclick="return addComment.moveForm( &quot;div-comment-1498&quot;, &quot;1498&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to Marco">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-1484" class="comment even thread-even depth-1 parent highlander-comment">
+			<article id="div-comment-1484" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://2.gravatar.com/avatar/2156bc4b30ba116856cf112e5cf156d8?s=60&amp;d=identicon&amp;r=G" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-2156bc4b30ba116856cf112e5cf156d8-0">						<b class="fn">HAMZA BOUFTAIH</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1484">
+							<time datetime="2017-02-20T23:55:29+00:00">
+								February 20, 2017 at 11:55 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>please help !</p>
+<p>i get this error : </p>
+<p>  File “C:/Users/Hamza-HP/Desktop/untitled/Tweepy.py”, line 24, in<br>
+    process_or_store(status._json)<br>
+  File “C:/Users/Hamza-HP/Desktop/untitled/Tweepy.py”, line 18, in process_or_store<br>
+    print(_json.dumps(tweet))<br>
+NameError: name ‘_json’ is not defined</p>
+<p>but i define json as follow : </p>
+<p>import simplejson as json </p>
+<p>i don’t really know what’s wrong :(</p>
+<p id="comment-like-1484" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1484&amp;_wpnonce=affd5bf3aa" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1484" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1484#respond" onclick="return addComment.moveForm( &quot;div-comment-1484&quot;, &quot;1484&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to HAMZA BOUFTAIH">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1499" class="comment byuser comment-author-marcobonzanini bypostauthor odd alt depth-2 highlander-comment">
+			<article id="div-comment-1499" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://1.gravatar.com/avatar/aa38bb7a9c35bc414da6ec7dcd8d7339?s=60&amp;d=identicon&amp;r=G" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-aa38bb7a9c35bc414da6ec7dcd8d7339-2">						<b class="fn">Marco</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-2/#comment-1499">
+							<time datetime="2017-02-28T16:32:43+00:00">
+								February 28, 2017 at 4:32 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi<br>
+if you import simplejson as json, you’ll need json.dumps(tweet) rather than _json (which is an attribute of status, but not defined in the main space<br>
+Cheers<br>
+Marco</p>
+<p id="comment-like-1499" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?like_comment=1499&amp;_wpnonce=2f40a51a24" class="comment-like-link needs-login" rel="nofollow" data-blog="82018920"><span>Like</span></a><span id="comment-like-count-1499" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/?replytocom=1499#respond" onclick="return addComment.moveForm( &quot;div-comment-1499&quot;, &quot;1499&quot;, &quot;respond&quot;, &quot;74&quot; )" aria-label="Reply to Marco">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-1490" class="pingback even thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="https://mosessmng.wordpress.com/2017/02/24/mining-twitter-data-with-tweepy-api/" rel="external nofollow" class="url">Mining Twitter Data with Tweepy API – Ng Shun Mo Moses' Blog</a> 			</div>
+</li><!-- #comment-## -->
+		<li id="comment-1510" class="pingback odd alt thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="http://philip-arena.com/2017/03/01/how-you-talk-to-your-coworkers-vs-how-you-talk-to-your-friends/" rel="external nofollow" class="url">How You Talk To Your Coworkers Vs. How You Talk To Your Friends – Stuff I'm Doing</a> 			</div>
+</li><!-- #comment-## -->
+</ol><!-- .comment-list -->
+
+			<nav id="comment-nav-below" class="navigation comment-navigation" role="navigation">
+		<h2 class="screen-reader-text">Comment navigation</h2>
+		<div class="nav-links">
+
+			<div class="nav-previous"><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/comment-page-1/#comments">Older Comments</a></div>
+			<div class="nav-next"></div>
+
+		</div><!-- .nav-links -->
+	</nav><!-- #comment-nav-below -->
+
+	
+	
+					<div id="respond" class="comment-respond js">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://marcobonzanini.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="ef5c6d9c16"><input type="hidden" name="_wp_http_referer" value="/2015/03/02/mining-twitter-data-with-python-part-1/">
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; word-wrap: break-word; overflow: hidden; transition: none; height: 0px !important; min-height: 0px !important; font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none; word-spacing: 0px; text-indent: 0px; line-height: 22.4px; width: 596.297px;" class="autosizejs "></textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 42px; overflow: hidden; word-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</li></ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value=""></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="">
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;wordpress&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;twitter&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;facebook&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="">
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;googleplus&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="74" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3ff685dc84"></p>
+<input type="hidden" name="genseq" value="1488595782">
+<p style="display: none;"></p>				<input type="hidden" id="ak_js" name="ak_js" value="1488595858006"></form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+
+<div id="secondary" class="widget-area" role="complementary">
+
+	
+	<aside id="image-3" class="widget widget_image"><h1 class="widget-title">Book</h1><div style="overflow:hidden;"><a href="https://www.amazon.com/Mastering-Social-Media-Mining-Python/dp/1783552018"><img src="https://marcobonzanini.files.wordpress.com/2016/08/book-cover.jpg?w=150&amp;h=123" alt="Mastering Social Media Mining with Python" title="Mastering Social Media Mining with Python" class="aligncenter" width="150" height="123"></a></div>
+</aside>		<aside id="recent-posts-5" class="widget widget_recent_entries">		<h1 class="widget-title">Recent Posts</h1>		<ul>
+					<li>
+				<a href="https://marcobonzanini.com/2016/09/25/pycon-uk-2016-write-up/">PyCon UK 2016&nbsp;write-up</a>
+							<span class="post-date">September 25, 2016</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2016/08/02/mastering-social-media-mining-with-python/">Mastering Social Media Mining with&nbsp;Python</a>
+							<span class="post-date">August 2, 2016</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2016/05/11/pydata-london-2016-write-up/">PyData London 2016&nbsp;write-up</a>
+							<span class="post-date">May 11, 2016</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2016/04/19/pycon-italia-pydata-italy-2016-write-up/">PyCon Italia / PyData Italy 2016&nbsp;Write-Up</a>
+							<span class="post-date">April 19, 2016</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/12/29/retrocomputing-and-python-import-turtle/">Retrocomputing and Python: import&nbsp;turtle</a>
+							<span class="post-date">December 29, 2015</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/11/21/adding-slack-notifications-to-a-luigi-pipeline-in-python/">Adding Slack Notifications to a Luigi Pipeline in&nbsp;Python</a>
+							<span class="post-date">November 21, 2015</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/10/24/building-data-pipelines-with-python-and-luigi/">Building Data Pipelines with Python and&nbsp;Luigi</a>
+							<span class="post-date">October 24, 2015</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/09/29/easy-text-analytics-with-the-dandelion-api-and-python/">Easy Text Analytics with the Dandelion API and&nbsp;Python</a>
+							<span class="post-date">September 29, 2015</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/09/07/getting-started-with-mongodb-and-python/">Getting Started with MongoDB and&nbsp;Python</a>
+							<span class="post-date">September 7, 2015</span>
+						</li>
+					<li>
+				<a href="https://marcobonzanini.com/2015/08/31/a-brief-introduction-to-text-summarisation/">A Brief Introduction to Text&nbsp;Summarisation</a>
+							<span class="post-date">August 31, 2015</span>
+						</li>
+				</ul>
+		</aside>		<aside id="archives-4" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+			<li><a href="https://marcobonzanini.com/2016/09/">September 2016</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2016/08/">August 2016</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2016/05/">May 2016</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2016/04/">April 2016</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2015/12/">December 2015</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2015/11/">November 2015</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2015/10/">October 2015</a>&nbsp;(1)</li>
+	<li><a href="https://marcobonzanini.com/2015/09/">September 2015</a>&nbsp;(2)</li>
+	<li><a href="https://marcobonzanini.com/2015/08/">August 2015</a>&nbsp;(3)</li>
+	<li><a href="https://marcobonzanini.com/2015/07/">July 2015</a>&nbsp;(2)</li>
+	<li><a href="https://marcobonzanini.com/2015/06/">June 2015</a>&nbsp;(3)</li>
+	<li><a href="https://marcobonzanini.com/2015/05/">May 2015</a>&nbsp;(2)</li>
+	<li><a href="https://marcobonzanini.com/2015/04/">April 2015</a>&nbsp;(3)</li>
+	<li><a href="https://marcobonzanini.com/2015/03/">March 2015</a>&nbsp;(4)</li>
+	<li><a href="https://marcobonzanini.com/2015/02/">February 2015</a>&nbsp;(4)</li>
+	<li><a href="https://marcobonzanini.com/2015/01/">January 2015</a>&nbsp;(4)</li>
+		</ul>
+		</aside><aside id="categories-4" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-4276"><a href="https://marcobonzanini.com/category/api/">API</a> (2)
+</li>
+	<li class="cat-item cat-item-2185"><a href="https://marcobonzanini.com/category/best-practices/">Best Practices</a> (1)
+</li>
+	<li class="cat-item cat-item-2075170"><a href="https://marcobonzanini.com/category/big-data/">Big Data</a> (4)
+</li>
+	<li class="cat-item cat-item-178"><a href="https://marcobonzanini.com/category/books/">Books</a> (1)
+</li>
+	<li class="cat-item cat-item-9204"><a href="https://marcobonzanini.com/category/conferences/">Conferences</a> (3)
+</li>
+	<li class="cat-item cat-item-867"><a href="https://marcobonzanini.com/category/data-mining/">Data Mining</a> (8)
+</li>
+	<li class="cat-item cat-item-129632"><a href="https://marcobonzanini.com/category/data-visualisation/">Data Visualisation</a> (2)
+</li>
+	<li class="cat-item cat-item-50684163"><a href="https://marcobonzanini.com/category/elasticsearch/">Elasticsearch</a> (6)
+</li>
+	<li class="cat-item cat-item-25393"><a href="https://marcobonzanini.com/category/engineering/">Engineering</a> (2)
+</li>
+	<li class="cat-item cat-item-116486"><a href="https://marcobonzanini.com/category/functional-programming/">Functional Programming</a> (1)
+</li>
+	<li class="cat-item cat-item-43773684"><a href="https://marcobonzanini.com/category/graph-databases/">Graph Databases</a> (1)
+</li>
+	<li class="cat-item cat-item-457"><a href="https://marcobonzanini.com/category/javascript/">Javascript</a> (3)
+</li>
+	<li class="cat-item cat-item-1618"><a href="https://marcobonzanini.com/category/london/">London</a> (3)
+</li>
+	<li class="cat-item cat-item-1133"><a href="https://marcobonzanini.com/category/maps/">Maps</a> (1)
+</li>
+	<li class="cat-item cat-item-251438"><a href="https://marcobonzanini.com/category/meet-ups/">Meet-ups</a> (3)
+</li>
+	<li class="cat-item cat-item-21954763"><a href="https://marcobonzanini.com/category/mongodb/">MongoDB</a> (1)
+</li>
+	<li class="cat-item cat-item-11651972"><a href="https://marcobonzanini.com/category/neo4j/">Neo4j</a> (1)
+</li>
+	<li class="cat-item cat-item-47433"><a href="https://marcobonzanini.com/category/nlp/">NLP</a> (9)
+</li>
+	<li class="cat-item cat-item-22319505"><a href="https://marcobonzanini.com/category/nosql/">NoSQL</a> (1)
+</li>
+	<li class="cat-item cat-item-832"><a href="https://marcobonzanini.com/category/python/">Python</a> (29)
+</li>
+	<li class="cat-item cat-item-437733"><a href="https://marcobonzanini.com/category/relevance/">Relevance</a> (2)
+</li>
+	<li class="cat-item cat-item-384531"><a href="https://marcobonzanini.com/category/retrocomputing/">Retrocomputing</a> (1)
+</li>
+	<li class="cat-item cat-item-2373"><a href="https://marcobonzanini.com/category/search/">Search</a> (7)
+</li>
+	<li class="cat-item cat-item-4473055"><a href="https://marcobonzanini.com/category/sentiment-analysis/">Sentiment Analysis</a> (2)
+</li>
+	<li class="cat-item cat-item-63429"><a href="https://marcobonzanini.com/category/spark/">Spark</a> (1)
+</li>
+	<li class="cat-item cat-item-2495437"><a href="https://marcobonzanini.com/category/text-analytics/">Text Analytics</a> (3)
+</li>
+	<li class="cat-item cat-item-186779"><a href="https://marcobonzanini.com/category/text-mining/">Text Mining</a> (2)
+</li>
+	<li class="cat-item cat-item-37551101"><a href="https://marcobonzanini.com/category/text-summarisation/">Text Summarisation</a> (1)
+</li>
+		</ul>
+</aside><aside id="text-3" class="widget widget_text">			<div class="textwidget"><div align="center"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0;" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a></div><span>The content of this blog</span> by <a href="http://marcobonzanini.com/" rel="cc:attributionURL">Marco Bonzanini</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</div>
+		</aside></div><!-- #secondary -->
+
+	</div><!-- #content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+
+		<div class="site-info">
+	<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+	
+	</div><!-- .site-info -->
+
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+<script type="text/javascript" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/gprofiles.js.download"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/wpgroho.js.download"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-64099de5d488d452da44232beb7a142d">
+	</div>
+	<div class="grofile-hash-map-aa38bb7a9c35bc414da6ec7dcd8d7339">
+	</div>
+	<div class="grofile-hash-map-5de7ea60ce407c35a4a8193f78486e48">
+	</div>
+	<div class="grofile-hash-map-2156bc4b30ba116856cf112e5cf156d8">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/marcobonzanini.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/marcobonzanini.wordpress.com\/wp-login.php?action=logout&_wpnonce=e365fe3eee","homeURL":"https:\/\/marcobonzanini.com\/","postID":"74","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/saved_resource(4)"></script>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/marcobonzanini.com\/2015\/03\/02\/mining-twitter-data-with-python-part-1\/":74};
+	</script>
+	<div id="sharing_email" style="display: none;">
+		<form action="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="">
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="">
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="">
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off">
+			<script> document.getElementById('jetpack-source_f_name').value = ''; </script>
+			<div class="recaptcha" id="sharing_recaptcha"></div><input type="hidden" name="recaptcha_public_key" id="recaptcha_public_key" value="6LcYW8MSAAAAADBAuEH9yaPcF7lWh11Iq62ZKtoo">
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16">
+			<input type="submit" value="Send Email" class="sharing_send">
+			<a rel="nofollow" href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-pocket' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/form.js.download"></script>
+<script type="text/javascript" src="https://s1.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKiotzgioLMnIzwOaaJ9ra2hiZGRsYmRobJIFAFr0QPk="></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+// Infinite scroll support
+jQuery( function( $ ) {
+	$( document.body ).on( 'post-load', function() {
+		SyntaxHighlighter.highlight();
+	} );
+} );
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"82018920","siteName":"Marco Bonzanini","siteURL":"https:\/\/marcobonzanini.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/button","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/marcobonzanini.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmarcobonzanini.com%2F2015%2F03%2F02%2Fmining-twitter-data-with-python-part-1%2F","themeURL":"https:\/\/wordpress.com\/themes\/button\/","xhrURL":"https:\/\/marcobonzanini.com\/wp-admin\/admin-ajax.php","nonce":"4e62b26db2","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"9abc4baf74\" \/>","referer":"https:\/\/marcobonzanini.com\/2015\/03\/02\/mining-twitter-data-with-python-part-1\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/marcobonzanini.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fmarcobonzanini.wordpress.com%2F2015%2F03%2F02%2Fmining-twitter-data-with-python-part-1%2F","postID":"74","shortlink":"http:\/\/wp.me\/p5y8RO-1c","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/marcobonzanini.com\/74","statsLink":"https:\/\/wordpress.com\/stats\/post\/74\/marcobonzanini.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Button","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 118 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/marcobonzanini.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmarcobonzanini.com%2F2015%2F03%2F02%2Fmining-twitter-data-with-python-part-1%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://s1.wp.com/_static/??-eJyVkNFOwzAMRX+IzEK0Ey+Ib3FTt3WbOCFOOvj7pSCqDaRKe4p1fc+1HbhEY4NkkgyzQk8rW4qfp1mf4Kbli4mujCwKjhdS+ChUaELpHaUDsw3eV8n8QPNGd6AXjvQIdCf8BfNEvtpi6aArOQcBVKX8DQquPGLmII9QunCss2QxQ7BFzcD7f7BYV/r7rRJF93Xy/G/GzUnY177pMIFHzZRqZcJKKfEWtmtHCXY7Y0vYqwN3DJrN4JAT6ISJZfx9K/Tu356b17ZtmvNLO18BbIfAvw=="></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<iframe src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/master(1).html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			&lt;p class="robots-nocontent"&gt;&lt;img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=7518284&amp;c3=&amp;c4=&amp;c5=&amp;c6=&amp;c15=&amp;cv=2.0&amp;cj=1" alt="" style="display:none;" width="1" height="1" /&gt;&lt;/p&gt;
+		</noscript><script src="./Mining Twitter Data with Python (Part 1_ Collecting data) – Marco Bonzanini_files/w.js.download" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'82018920','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'82018920','v':'wpcom','tz':'0','user_id':'0','post':'74','subd':'marcobonzanini'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlLHhFXzFxUnJ2cGosK0Q/WWUleTBRZmlLb0ZxMS1FZ2I1WkVmczJYMTN1cS4zfEdvNWZsP2oyb3F8eC5kWzBpQjdmS1Y4dmZvMnVPSldzJWNuYUZIaUYsd3krVEM2RD9lWixPTjViS0tOT043aEROSSZwTixKfkhCL2ZiPSVvZ0ktXThObXBiamE3bS5BPVdKQ1Z2U3Fral1kP3NDYS9WM193a1EyUGxwJUlaa1BHXXZPQzdJV2xKYywlSDJCSGtncXNvW1JuTWtaMDRtZTYvUg=='}]);
+_stq.push([ 'clickTrackerInit', '82018920', '74' ]);
+	</script>
+<noscript>&lt;img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /&gt;</noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+
+<!--
+	generated 26 seconds ago
+	generated in 0.147 seconds
+	served from batcache in 0.002 seconds
+	expires in 274 seconds
+-->
+<img src="https://pixel.wp.com/g.gif?blog=82018920&amp;v=wpcom&amp;tz=0&amp;user_id=0&amp;post=74&amp;subd=marcobonzanini&amp;host=marcobonzanini.com&amp;ref=https%3A%2F%2Fwww.google.com.au%2F&amp;rand=0.39573777939192234" alt=":)" id="wpstats"></body></html>

@@ -1,0 +1,57 @@
+GUI 
+Landing page
+			<title>Potentially T/F</title>
+
+			
+			<button> Log into Twitter </button>
+
+
+	<credits>Credits to Young Rae Cho, Monash University Computer Science Project for Semester 1 2017 </credits>
+
+
+Page 0 - After log in, by default, the application will show the user's most recent tweets and their verifiability.
+
+
+Page 1
+
+			<title>Potentially T/F </title>
+
+			<label> Enter a Twitter Handle </label>
+
+			<text-field> <grey-faded-out-text>@username</grey-faded-out-text> </text-field>
+
+			<button>Get Most Recent Tweets!</button>
+
+
+Page 2
+			<title>Potentially T/F </title>
+
+		<sub-title>The most recent tweets for @username are: </sub-title>
+
+		<button>1. <tweet id=1>blah blah blah</tweet> </button>
+		<button>2. <tweet id=2>blah blah blah</tweet> </button>
+		<button>3. <tweet id=3>blah blah blah</tweet> </button>
+		<button>4. <tweet id=4>blah blah blah</tweet> </button>
+						.
+						.
+						.
+
+
+				<button>Classify</button>
+
+Page 3
+		
+			<title>Potentially T/F </title>
+
+		<sub-title>The most recent tweets for @username are: </sub-title>
+
+		<button>1. <tweet id=1 color='red'>blah blah blah</tweet> </button>
+		<button>2. <tweet id=2 color='yellow'>blah blah blah</tweet> </button>
+		<button>3. <tweet id=3 color='red'>blah blah blah</tweet> </button>
+		<button>4. <tweet id=4 color='green'>blah blah blah</tweet> </button>
+						.
+						.
+						.
+
+
+				<button>Classify</button>
