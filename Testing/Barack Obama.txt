@@ -7,9 +7,9 @@ description : Dad, husband, President, citizen.
 url : https://t.co/93Y27HEnnX
 entities : {'url': {'urls': [{'url': 'https://t.co/93Y27HEnnX', 'expanded_url': 'https://www.obama.org/', 'display_url': 'obama.org', 'indices': [0, 23]}]}, 'description': {'urls': []}}
 protected : False
-followers_count : 85550699
-friends_count : 630993
-listed_count : 222364
+followers_count : 85554339
+friends_count : 630995
+listed_count : 222247
 created_at : Mon Mar 05 22:08:25 +0000 2007
 favourites_count : 10
 utc_offset : -18000
@@ -18,7 +18,7 @@ geo_enabled : False
 verified : True
 statuses_count : 15439
 lang : en
-status : {'created_at': 'Wed Mar 08 21:14:58 +0000 2017', 'id': 839585255703080968, 'id_str': '839585255703080968', 'text': 'On International Women’s Day, @MichelleObama and I are inspired by all of you who embrace your power to drive chang… https://t.co/Er9mIQlmgr', 'truncated': True, 'entities': {'hashtags': [], 'symbols': [], 'user_mentions': [{'screen_name': 'MichelleObama', 'name': 'Michelle Obama', 'id': 409486555, 'id_str': '409486555', 'indices': [30, 44]}], 'urls': [{'url': 'https://t.co/Er9mIQlmgr', 'expanded_url': 'https://twitter.com/i/web/status/839585255703080968', 'display_url': 'twitter.com/i/web/status/8…', 'indices': [117, 140]}]}, 'source': '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>', 'in_reply_to_status_id': None, 'in_reply_to_status_id_str': None, 'in_reply_to_user_id': None, 'in_reply_to_user_id_str': None, 'in_reply_to_screen_name': None, 'geo': None, 'coordinates': None, 'place': None, 'contributors': None, 'is_quote_status': True, 'quoted_status_id': 839584161442775040, 'quoted_status_id_str': '839584161442775040', 'retweet_count': 46575, 'favorite_count': 218121, 'favorited': False, 'retweeted': False, 'possibly_sensitive': False, 'lang': 'en'}
+status : {'created_at': 'Wed Mar 08 21:14:58 +0000 2017', 'id': 839585255703080968, 'id_str': '839585255703080968', 'text': 'On International Women’s Day, @MichelleObama and I are inspired by all of you who embrace your power to drive chang… https://t.co/Er9mIQlmgr', 'truncated': True, 'entities': {'hashtags': [], 'symbols': [], 'user_mentions': [{'screen_name': 'MichelleObama', 'name': 'Michelle Obama', 'id': 409486555, 'id_str': '409486555', 'indices': [30, 44]}], 'urls': [{'url': 'https://t.co/Er9mIQlmgr', 'expanded_url': 'https://twitter.com/i/web/status/839585255703080968', 'display_url': 'twitter.com/i/web/status/8…', 'indices': [117, 140]}]}, 'source': '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>', 'in_reply_to_status_id': None, 'in_reply_to_status_id_str': None, 'in_reply_to_user_id': None, 'in_reply_to_user_id_str': None, 'in_reply_to_screen_name': None, 'geo': None, 'coordinates': None, 'place': None, 'contributors': None, 'is_quote_status': True, 'quoted_status_id': 839584161442775040, 'quoted_status_id_str': '839584161442775040', 'retweet_count': 46821, 'favorite_count': 220092, 'favorited': False, 'retweeted': False, 'possibly_sensitive': False, 'lang': 'en'}
 contributors_enabled : False
 is_translator : False
 is_translation_enabled : True
