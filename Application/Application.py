@@ -14,4 +14,10 @@ class Application():
         app.mainloop()
 
 
+    def input_username(self):
+        username = str(input("Enter a username: "))
+        return username
+
+
+
 
