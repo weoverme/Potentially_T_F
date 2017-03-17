@@ -1,5 +1,5 @@
 import tweepy
-
+import traceback
 
 class TwitterObserver:
 
@@ -16,12 +16,13 @@ class TwitterObserver:
 
     def get_tweets_for(self, username, n):
         try:
-            for status in tweepy.Cursor(self.api.user_timeline, id=username).items(10):
+            for status in tweepy.Cursor(self.api.user_timeline, id=username).items(n):
                 # process_status(status._json)
-                print(status.text)
+                # print(status.text)
                 self.write_tweet_to_file(username, status.text)
         except tweepy.error.TweepError as e:
-            print("Twitter Error: Invalid Twitter Username")
+            traceback.print_exc()
+            print("Exception")
         except TypeError:
             try:
                 self.get_tweets_for(username, int(n))
@@ -33,13 +34,20 @@ class TwitterObserver:
         f.write(tweet + "\n")
         f.close()
 
-    def get_most_recent_tweets(self, username):
-        f = open(username+".txt", "r+")
-        print(len(f))
+    def get_most_recent_tweets(self, username, n):
+        total_tweets = 0
+        with open(username+".txt", "r+") as file:
+            # find out how many lines are in the .txt file
+            for line in file:
+                total_tweets += 1
+                print(total_tweets)
 
+            # report how many lines
+            print(total_tweets)
 
-# for status in tweepy.Cursor(api.home_timeline).items(10):
-#     print(status.text)
+            # print out the most recent tweets
+            for i in range(total_tweets, (0), -1):
+                print(i)
 
 
 def test_get_tweets_for():
@@ -56,5 +64,5 @@ def test_get_tweets_for():
     testOb.get_tweets_for(test_invalid_user, 10)
     print("tested invalid user")
 
-TwitterObserver().get_tweets_for("@BarackObama", 10)
-TwitterObserver().get_most_recent_tweets("@BarackObama")
+TwitterObserver().get_tweets_for("@chrismorrisOrg", 10)
+#TwitterObserver().get_most_recent_tweets("@realDonaldTrump",10)
