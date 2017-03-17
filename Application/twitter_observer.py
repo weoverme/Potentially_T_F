@@ -1,9 +1,20 @@
 import tweepy
 import traceback
+import json
 
 class TwitterObserver:
 
-    def __init__(self):
+    """
+
+    One Twitter Observer for one user.
+
+    """
+
+    def __init__(self, username):
+        # dictionary of tweets initialised
+        self.username = username
+        self.all_tweets = {}
+
         # My user is  @ray_cho94
         self.access_token = "837846446376271872-PrPyDNixKM7dxCtNrHJ9C73w7XKWzmC"
         self.access_token_secret = "pNEJZv0tFlPFjrvdg08HEFyPTFv2WmbKmDuFlIS8qQOK9"
@@ -12,42 +23,78 @@ class TwitterObserver:
         self.auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
         self.auth.set_access_token(self.access_token, self.access_token_secret)
 
+        # My copy of the API
         self.api = tweepy.API(self.auth)
 
-    def get_tweets_for(self, username, n):
+    def get_tweets_for(self, n):
         try:
-            for status in tweepy.Cursor(self.api.user_timeline, id=username).items(n):
-                # process_status(status._json)
-                # print(status.text)
-                self.write_tweet_to_file(username, status.text)
+            for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
+                #print(json.dumps(status._json))
+                self.add_tweet_to_dic(status.id, status.text)
+            #print(self.all_tweets)
+            self.write_tweets_to_file()
         except tweepy.error.TweepError as e:
             traceback.print_exc()
             print("Exception")
         except TypeError:
             try:
-                self.get_tweets_for(username, int(n))
+                self.get_tweets_for(self.username, int(n))
             except TypeError:
                 print("Second argument must be a positive integer value!")
 
-    def write_tweet_to_file(self, username, tweet):
-        f = open(username + ".txt", "w+")
-        f.write(tweet + "\n")
+    def add_tweet_to_dic(self, t_id, tweet):
+        """
+        # if id already exists in the dictionary
+        if self.all_tweets[t_id] is not None:
+            # dont screw up my dictionary
+            return False
+        else:
+            # add entry to the dictionary
+            self.all_tweets[t_id] = tweet
+            return True
+        """
+
+        self.all_tweets[t_id] = tweet
+
+    def write_tweets_to_file(self):
+        """
+        replace file with text file containing the new dictionary, in order of tweet_id.
+        """
+        # create/overwrite @username.txt
+        f = open(self.username+".txt", "w+")
+
+        # get all tweet ids in ascending order
+        tweet_ids = sorted(self.all_tweets.keys())
+
+        # for each tweet
+        for i in tweet_ids:
+            print(str(i))
+            print(self.all_tweets[i])
+            self.all_tweets[i] = " ".join(self.all_tweets[i].split("\n"))
+            f.write(str(i)+" :: "+self.all_tweets[i]+"\n")
+
+        # end function
         f.close()
 
-    def get_most_recent_tweets(self, username, n):
-        total_tweets = 0
-        with open(username+".txt", "r+") as file:
-            # find out how many lines are in the .txt file
-            for line in file:
-                total_tweets += 1
-                print(total_tweets)
+    def get_all_tweets(self):
+        f = open(self.username+".txt", "r")
+        self.all_tweets = {}
+        for line in f:
+            print(line)
+            lsplit = line.split(" :: ")
+            self.all_tweets[int(lsplit[0])] = lsplit[1]
 
-            # report how many lines
-            print(total_tweets)
+        print(sorted(self.all_tweets))
+        f.close()
 
-            # print out the most recent tweets
-            for i in range(total_tweets, (0), -1):
-                print(i)
+
+    def get_most_recent_tweets(self, n):
+        """
+        get the n most recent tweets
+        :param n:
+        :return:
+        """
+        pass
 
 
 def test_get_tweets_for():
@@ -64,5 +111,9 @@ def test_get_tweets_for():
     testOb.get_tweets_for(test_invalid_user, 10)
     print("tested invalid user")
 
-TwitterObserver().get_tweets_for("@chrismorrisOrg", 10)
+t = TwitterObserver("@BarackObama")
+t.get_tweets_for(15)
+print("done")
+t.get_all_tweets()
+print("done2")
 #TwitterObserver().get_most_recent_tweets("@realDonaldTrump",10)

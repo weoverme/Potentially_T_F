@@ -9,6 +9,7 @@ Date: 4 March 2017
 """
 
 import tkinter as tk
+from Application import twitter_observer as twO
 
 
 class MainGUI(tk.Frame):
@@ -31,19 +32,21 @@ class MainGUI(tk.Frame):
 class InitialGUI(MainGUI):
     def __init__(self):
         MainGUI.__init__(self, master=None)
-        self.twitter_login_button()
+        self.twitter_observer = None
+        self.get_tweets_button()
         self.credits_widget()
 
-    def twitter_login_button(self):
-        self.twitter_login = tk.Button(self)
-        self.twitter_login["text"] = "Log into Twitter"
-        self.twitter_login["command"] = None #get_credentials()
-        self.twitter_login.pack(side="bottom")
+    def get_tweets_button(self):
+        self.get_tweets = tk.Button(self)
+        self.get_tweets["text"] = "Get Tweets!"
+        self.get_tweets["command"] = self.get_tweets_from()#get_credentials()
+        self.get_tweets.pack(side="bottom")
 
     def credits_widget(self):
         self.credits = tk.Label(self)
         self.credits["text"] = "Credits to Young Rae Cho, Monash University Computer Science Project for Semester 1 2017"
         self.credits.pack(side="bottom")
+
 
 
 class DefaultGUI(MainGUI):
