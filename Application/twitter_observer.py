@@ -13,6 +13,7 @@ class TwitterObserver:
     def __init__(self, username):
         # dictionary of tweets initialised
         self.username = username
+        # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
         self.all_tweets = {}
 
         # My user is  @ray_cho94
@@ -27,11 +28,16 @@ class TwitterObserver:
         self.api = tweepy.API(self.auth)
 
     def get_tweets_for(self, n):
+        """
+        Get the tweets for a object's username, in order of most recent --> least recent
+        :param n: limited integer value
+        :return: None
+        """
         try:
+            # for each tweet, add it to the object's dictionary
             for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
-                #print(json.dumps(status._json))
                 self.add_tweet_to_dic(status.id, status.text)
-            #print(self.all_tweets)
+            # save the tweets, for future reference
             self.write_tweets_to_file()
         except tweepy.error.TweepError as e:
             traceback.print_exc()
@@ -60,6 +66,7 @@ class TwitterObserver:
         """
         replace file with text file containing the new dictionary, in order of tweet_id.
         """
+
         # create/overwrite @username.txt
         f = open(self.username+".txt", "w+")
 
@@ -68,8 +75,6 @@ class TwitterObserver:
 
         # for each tweet
         for i in tweet_ids:
-            print(str(i))
-            print(self.all_tweets[i])
             self.all_tweets[i] = " ".join(self.all_tweets[i].split("\n"))
             f.write(str(i)+" :: "+self.all_tweets[i]+"\n")
 
@@ -77,16 +82,26 @@ class TwitterObserver:
         f.close()
 
     def get_all_tweets(self):
+        """
+        get all tweets from the object's designated dictionary. This dictionary may exist prior to the instantiation of
+        this object, most likely because there has been an instance of this object being used previously.
+        :return: None
+        """
+        # open file with only READ ACCESS, since we don't want to change anything to the file here
         f = open(self.username+".txt", "r")
+
+        # replace the dictionary with whatever we have in our file.
+        # Essentially, if the dictionary file doesn't have the id/Tweet combo, then it shouldn't exist in the
+        # dictionary.
         self.all_tweets = {}
+
+        # Unpack the (hopefully) unique string
         for line in f:
-            print(line)
-            lsplit = line.split(" :: ")
-            self.all_tweets[int(lsplit[0])] = lsplit[1]
+            lSplit = line.split(" :: ")
+            self.all_tweets[int(lSplit[0])] = lSplit[1]
 
-        print(sorted(self.all_tweets))
+        # finished using file
         f.close()
-
 
     def get_most_recent_tweets(self, n):
         """
@@ -94,7 +109,12 @@ class TwitterObserver:
         :param n:
         :return:
         """
-        pass
+        tweets_sorted = sorted(self.all_tweets.keys())
+        most_recent = []
+        tLen = len(tweets_sorted)
+        for i in range(tLen-1, tLen-n-1, -1):
+            most_recent.append(self.all_tweets[tweets_sorted[i]])
+        print(most_recent)
 
 
 def test_get_tweets_for():
@@ -113,7 +133,5 @@ def test_get_tweets_for():
 
 t = TwitterObserver("@BarackObama")
 t.get_tweets_for(15)
-print("done")
+t.get_most_recent_tweets(10)
 t.get_all_tweets()
-print("done2")
-#TwitterObserver().get_most_recent_tweets("@realDonaldTrump",10)
