@@ -1,6 +1,6 @@
 import tweepy
 import traceback
-import json
+
 
 class TwitterObserver:
 
@@ -88,20 +88,23 @@ class TwitterObserver:
         :return: None
         """
         # open file with only READ ACCESS, since we don't want to change anything to the file here
-        f = open(self.username+".txt", "r")
+        try:
+            f = open(self.username+".txt", "r")
 
-        # replace the dictionary with whatever we have in our file.
-        # Essentially, if the dictionary file doesn't have the id/Tweet combo, then it shouldn't exist in the
-        # dictionary.
-        self.all_tweets = {}
+            # replace the dictionary with whatever we have in our file.
+            # Essentially, if the dictionary file doesn't have the id/Tweet combo, then it shouldn't exist in the
+            # dictionary.
+            self.all_tweets = {}
 
-        # Unpack the (hopefully) unique string
-        for line in f:
-            lSplit = line.split(" :: ")
-            self.all_tweets[int(lSplit[0])] = lSplit[1]
+            # Unpack the (hopefully) unique string
+            for line in f:
+                lSplit = line.split(" :: ")
+                self.all_tweets[int(lSplit[0])] = lSplit[1]
 
-        # finished using file
-        f.close()
+            # finished using file
+            f.close()
+        except FileNotFoundError:
+            print("File not found. Write to file first!")
 
     def get_most_recent_tweets(self, n):
         """
@@ -117,21 +120,3 @@ class TwitterObserver:
         print(most_recent)
 
 
-def test_get_tweets_for():
-    test_valid_user = "@ray_cho94"
-    test_invalid_user = "@raydio545"
-    # test for invalid n value
-    testOb = TwitterObserver()
-    testOb.get_tweets_for(test_valid_user, 10.1)
-    print("tested invalid numerical")
-    # test for str version of n value
-    testOb.get_tweets_for(test_valid_user, "10")
-    print("tested str(numerical)")
-    # test for invalid user
-    testOb.get_tweets_for(test_invalid_user, 10)
-    print("tested invalid user")
-
-t = TwitterObserver("@BarackObama")
-t.get_tweets_for(15)
-t.get_most_recent_tweets(10)
-t.get_all_tweets()
