@@ -39,12 +39,12 @@ class TwitterObserver:
                 self.add_tweet_to_dic(status.id, status.text)
             # save the tweets, for future reference
             self.write_tweets_to_file()
-        except tweepy.error.TweepError as e:
+        except tweepy.error.TweepError:
             traceback.print_exc()
             print("Exception")
         except TypeError:
             try:
-                self.get_tweets_for(self.username, int(n))
+                self.get_tweets_for(int(n))
             except TypeError:
                 print("Second argument must be a positive integer value!")
 
@@ -98,8 +98,8 @@ class TwitterObserver:
 
             # Unpack the (hopefully) unique string
             for line in f:
-                lSplit = line.split(" :: ")
-                self.all_tweets[int(lSplit[0])] = lSplit[1]
+                l_split = line.split(" :: ")
+                self.all_tweets[int(l_split[0])] = l_split[1]
 
             # finished using file
             f.close()
@@ -114,9 +114,7 @@ class TwitterObserver:
         """
         tweets_sorted = sorted(self.all_tweets.keys())
         most_recent = []
-        tLen = len(tweets_sorted)
-        for i in range(tLen-1, tLen-n-1, -1):
+        t_len = len(tweets_sorted)
+        for i in range(t_len-1, t_len-n-1, -1):
             most_recent.append(self.all_tweets[tweets_sorted[i]])
         print(most_recent)
-
-
