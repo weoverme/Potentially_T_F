@@ -2,7 +2,7 @@ from nltk import *
 import numpy
 
 def get_tweets(filename, all_tweets):
-    f = open("@BarackObama.txt", "r")
+    f = open(filename, "r")
 
     for line in f:
         l_split = line.split(" :: ")
@@ -32,7 +32,7 @@ def sent_tokenise_tweets(all_tweets):
 
 def tokenise_tweets(all_tweets):
     verifiable_tweets = []
-    features = ["CD", "VBP", "VBD"]
+    features = ["CD", "VBP", "VBD", "JJ", "JJR", "VBZ"]
 
     for t in range(len(all_tweets)-1):
         word_tok_list = word_tokenize(all_tweets[t])
@@ -54,13 +54,14 @@ def return_flag_on_feature(feature, pos_tag_list):
 
 def main():
     all_tweets = []
-    get_tweets("@BarackObama.txt", all_tweets)
+    get_tweets("@realDonaldTrump.txt", all_tweets)
+    """
     sent_tokenise_tweets(all_tweets)
     """
     # print verifiable tweets
     verifiable = tokenise_tweets(all_tweets)
     for i in verifiable:
         print(i)
-    """
+
 
 main()
