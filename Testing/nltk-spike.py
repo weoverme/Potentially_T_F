@@ -52,10 +52,14 @@ def return_flag_on_feature(feature, pos_tag_list):
             return True
     return False
 
+
 def main():
     all_tweets = []
     get_tweets("@realDonaldTrump.txt", all_tweets)
+
     """
+    # print all words, tokenized and postag'ed
+
     sent_tokenise_tweets(all_tweets)
     """
     # print verifiable tweets
