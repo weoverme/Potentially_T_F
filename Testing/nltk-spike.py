@@ -11,7 +11,7 @@ def get_tweets(filename, all_tweets):
     # finished using file
     f.close()
 
-def tokenise_tweets(all_tweets):
+def sent_tokenise_tweets(all_tweets):
     sent_tok_list = []
     all_tok_list = []
 
@@ -23,12 +23,27 @@ def tokenise_tweets(all_tweets):
             word_tok_list = word_tokenize(s)
             pos_tag_list = pos_tag(word_tok_list)
             all_tok_list[t].append(pos_tag_list)
-            if return_flag_on_feature("CD", pos_tag_list):
-                print(pos_tag_list)
-
-
+            print(pos_tag_list)
+#            if return_flag_on_feature("VBP", pos_tag_list):
+#                print(pos_tag_list)
 
     return all_tok_list
+
+
+def tokenise_tweets(all_tweets):
+    verifiable_tweets = []
+    features = ["CD", "VBP", "VBD"]
+
+    for t in range(len(all_tweets)-1):
+        word_tok_list = word_tokenize(all_tweets[t])
+        pos_tag_list = pos_tag(word_tok_list)
+
+        for feature in features:
+            if return_flag_on_feature(feature, pos_tag_list):
+                verifiable_tweets.append(all_tweets[t])
+                break
+
+    return verifiable_tweets
 
 
 def return_flag_on_feature(feature, pos_tag_list):
@@ -37,11 +52,15 @@ def return_flag_on_feature(feature, pos_tag_list):
             return True
     return False
 
-
-
 def main():
     all_tweets = []
     get_tweets("@BarackObama.txt", all_tweets)
-    tokenise_tweets(all_tweets)
+    sent_tokenise_tweets(all_tweets)
+    """
+    # print verifiable tweets
+    verifiable = tokenise_tweets(all_tweets)
+    for i in verifiable:
+        print(i)
+    """
 
 main()
