@@ -57,7 +57,7 @@ def main():
     all_tweets = []
     get_tweets("@realDonaldTrump.txt", all_tweets)
 
-    """
+
     # print all words, tokenized and postag'ed
 
     sent_tokenise_tweets(all_tweets)
@@ -66,6 +66,7 @@ def main():
     verifiable = tokenise_tweets(all_tweets)
     for i in verifiable:
         print(i)
+    """
 
 
 main()
