@@ -1,0 +1,6 @@
+CD
+VBP
+VBD
+JJ
+JJR
+VBZ
