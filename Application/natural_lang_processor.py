@@ -1,12 +1,12 @@
 from nltk import *
 
+
 class NatLangProcessor:
 
     def __init__(self, username):
         self.username = username
         self.all_tweets = []
-        self.features = ["CD", "VBP", "VBD", "JJ", "JJR", "VBZ"]
-
+        self.features = []
 
     def get_tweets(self):
         f = open(self.username+".txt", "r")
@@ -87,11 +87,13 @@ class NatLangProcessor:
 
         :return:
         """
-        list = []
+        f_list = []
         f = open("verifiability_features.txt", "r")
         for line in f:
-            list.append(line)
-        self.features = list
+            f_list.append(line)
+        self.features = f_list
+
+
 
 
 
