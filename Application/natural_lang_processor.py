@@ -1,7 +1,23 @@
 from nltk import *
 
+class StatementNatLangProcessor:
 
-class NatLangProcessor:
+    def __init__(self):
+        self.features = []
+
+    def tokenize_statement_by_word(self, statement):
+        word_tok_list = word_tokenize(statement)
+        return word_tok_list
+
+    def show_features_in(self, statement):
+        w_list = self.tokenize_statement_by_word(statement)
+        return pos_tag(w_list)
+
+
+
+
+
+class TweetNatLangProcessor:
 
     def __init__(self, username):
         self.username = username
