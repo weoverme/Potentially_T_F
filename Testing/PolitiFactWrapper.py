@@ -64,32 +64,40 @@ def get_statements_by_date(edition, count):
         view_features_in_statement(st)
 
 
-
-    """
-    statement.replace("<p>", "")
-    statement.replace("</p>", "")
-    statement.replace("\n", " ")
-    statement.replace("<div>&nbsp;</div>", " ")
-    statement.replace("&#39;", "\'")
-    statement.replace("&quot;", "\"")
-    statement.replace("&lsquo;", "\'")
-    statement.replace("&rsquo;", "\'")
-    """
-
-
 def view_features_in_statement(statement):
+    fList = {}
     nl = StatementNatLangProcessor()
-    print(nl.show_features_in(statement))
+    tok_list = nl.show_features_in(statement)
+    for i in tok_list:
+        f = i[1]
+        try:
+            if fList[f]:
+                pass
+        except KeyError:
+            fList[f] = None
+
+            keys = fList.keys()
+            #print(keys)
 
 
-get_statements_by_date("truth-o-meter", 20)
+
+#get_statements_by_date("truth-o-meter", 20)
 
 
-"""
-class PolitiFactStatement(Statement):
-    def __init__(self):
-        super(PolitiFactStatement, self).__init__(None, None, "PolitiFact", None)
+def get_statements_(count):
+    if count < 1:
+        count = 1
+    extension = ("truth-o-meter/json/?n="+str(count))
 
-"""
+    r = requests.get(base_url+extension)
+
+    json_ = r.json()
+    print(type(json_[0]))#.values())
+    for i in range(count):
+        st = json_[i]
+        st = parse_statement_of_html_tags(st["statement"])
+        print(str(i)+"::"+ st)
+        view_features_in_statement(st)
 
 
+get_statements_(5)

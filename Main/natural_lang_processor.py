@@ -1,5 +1,6 @@
 from nltk import *
 
+
 class StatementNatLangProcessor:
 
     def __init__(self):
@@ -12,9 +13,6 @@ class StatementNatLangProcessor:
     def show_features_in(self, statement):
         w_list = self.tokenize_statement_by_word(statement)
         return pos_tag(w_list)
-
-
-
 
 
 class TweetNatLangProcessor:
@@ -109,7 +107,6 @@ class TweetNatLangProcessor:
             f_list.append(line)
         self.features = f_list
 
-
-
-
+if __name__ == "__main__":
+    pass
 
