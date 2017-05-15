@@ -1,7 +1,8 @@
 from sklearn import svm
+from Main.dataset import *
 
 #initialise training data
-training_data = []
+
 
 #get support vectors
 feature_vector = []
@@ -14,4 +15,4 @@ X = [[0, 0], [1, 1]]
 y = [0, 1]
 clf = svm.SVC()
 clf.fit(X, y)
-clf.predic
+clf.predict([0,0])

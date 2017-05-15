@@ -42,27 +42,26 @@ class TestingSet:
     def classify_data(self, dataObj, value=0):
         try:
             if value != 1 or value != -1:
-                raise Exception InvalidClassificationValue
+                raise InvalidClassificationValue
             dataObj.set_classification(value)
 
         except InvalidClassificationValue:
             message = "Enter a valid classification value 1 or -1"
+            print(message)
 
         return message
 
+class InvalidClassificationValue(Exception):
+    def __init__(self):
+        self.msg = "Enter a valid classification value 1 or -1"
 
-class AbstractData:
-    def __init__(self, statement):
-        self.__statement = statement
-        self.__classification = 0
 
-    def set_classification(self, value):
-        pass
-
-class TrainingData(AbstractData):
-    def __init__(self, statement):
-        super.__init__(statement)
-        self.__classified = False
+class TrainingData:
+    def __init__(self, url, statement):
+        self.url = url
+        self.text = statement
+        self.classification = 0
+        self.classified = False
 
     def set_classification(self, value):
         #cannot classify again
@@ -71,10 +70,13 @@ class TrainingData(AbstractData):
             self.classified = True
 
 
-class TestingData(AbstractData):
+class TestingData:
     def __init__(self, statement):
-        super.__init__(statement)
+        self.id = id
+        self.statement = statement
+        self.classification = 0
 
     def set_classification(self, value):
         self.classification = value
+
 

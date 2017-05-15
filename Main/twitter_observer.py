@@ -38,7 +38,7 @@ class TwitterObserver:
             for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
                 self.add_tweet_to_dic(status.id, status.text)
             # save the tweets, for future reference
-            self.write_tweets_to_file()
+#            self.write_tweets_to_file()
         except tweepy.error.TweepError:
             traceback.print_exc()
             print("Exception")
@@ -74,14 +74,14 @@ class TwitterObserver:
         tweet_ids = sorted(self.all_tweets.keys())
 
         # for each tweet
-        for i in tweet_ids:
-            self.all_tweets[i] = " ".join(self.all_tweets[i].split("\n"))
-            f.write(str(i)+" :: "+self.all_tweets[i]+"\n")
+        for tw_id in tweet_ids:
+            self.all_tweets[tw_id] = " ".join(self.all_tweets[tw_id].split("\n"))
+            f.write(str(tw_id)+" :: "+self.all_tweets[tw_id]+"\n")
 
         # end function
         f.close()
 
-    def get_all_tweets(self):
+    def get_all_tweets_from_file(self):
         """
         get all tweets from the object's designated dictionary. This dictionary may exist prior to the instantiation of
         this object, most likely because there has been an instance of this object being used previously.
@@ -118,3 +118,33 @@ class TwitterObserver:
         for i in range(t_len-1, t_len-n-1, -1):
             most_recent.append(self.all_tweets[tweets_sorted[i]])
         print(most_recent)
+
+
+if __name__ == "__main__":
+
+    w_file = open("twitter_training_data_set.txt", "w+")
+
+    # make training data made up of twitter feed
+    tw_users = ["@realDonaldTrump", "BarackObama", "@HillaryClinton",
+                 "@SenSanders", "@AdamBandt", "@TurnbullMalcolm",
+                 "@TonyAbbottMHR", "@MrKRudd", "@billshortenmp",
+                 "@JuliaGillard", "@JoeHockey", "@JulieBishopMP", "@POTUS"]
+    for i in tw_users:
+        tw = TwitterObserver(i)
+        # get 50 tweets for each user
+        tw.get_tweets_for(50)
+        # write the tweets to the training data file
+        all_t = tw.all_tweets
+        ks = all_t.keys()
+        for k in ks:
+
+            text = all_t[k].replace("\n", " ")
+            try:
+                to_write = "0%\t%" + text + "%\t%" + str(k) + "\n"
+                w_file.write(to_write)
+                #print(to_write)
+            except UnicodeEncodeError:
+                #print(text)
+                pass
+
+    w_file.close()
