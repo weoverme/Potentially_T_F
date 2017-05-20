@@ -1,10 +1,10 @@
 from nltk import *
 import numpy as np
-
+import datetime
 
 class TrainingData:
 
-    def __init__(self, data_size):
+    def __init__(self):
         self.features = self.get_support_vector_features()
         self.data = []
         self.target = []
@@ -38,42 +38,63 @@ class TrainingData:
         self.increment_n_samples()
 
     def determine_and_add_target(self, sample):
-
-
-        if sample[-1] > 0:
+        if sample[-1] != 0:
             # if there exists a "?" in the sample text
             self.target.append("NVER")
         else:
             # check if features exist in the sample text
             t_sum = 0
             for v in sample:
+
                 t_sum += v
 
-            if t_sum != 0:
+            if t_sum > 0:
                 self.target.append("VER")
             else:
                 self.target.append("NVER")
 
 
+    def save(self):
+        timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
+        f = open("datasets/training_data_"+ timestamp+".txt", "w+")
+        f.write("TrainingData, " + str(self.n_samples) + "\n")
+
+        for i in range(self.n_samples):
+            data_ = "".join(str(self.data[i].tolist()))
+            line = data_ + "%\t%" + self.target[i] + "%\t%" + self.text_list[i] + "\n"
+            f.write(line)
+
+        f.close()
+
 #########################################################
 
-def get_sample_feature_vectors(features_of_tweet, training_data_object):
+def get_sample_feature_vectors(postag_tokens_of_tweet, training_data_object):
 
     td_features = training_data_object.features
+    curr_sv = [0] * len(td_features)  # list of n_features of 0s ex. [0, 0, 0, ..]
 
-    for feature in features_of_tweet: # for each feature
-        # find the index of the feature in sv_features, if it exists
+    for token in postag_tokens_of_tweet: # for each feature
+        text, feature = token[0], token[1]
+        # find the index of the feature in td_features, if it exists
         index = 9999 # default value
-        curr_sv = [0]*len(td_features) # list of n_features of 0s ex. [0, 0, 0, ..]
 
         try:
             for i in range(len(td_features)):
+                #print("Feature:", feature, "\tTD Feature:", td_features[i])
                 if feature == td_features[i]:
-                    index = i
-                    break
+                    # when found, increment sample vector's  value
 
-            # when found, increment value
-            curr_sv[index] += 1
+                    if td_features[i] == td_features[-1]:
+                        # checking if there is a "?" in the text
+                        if token[0] == "?":
+                            curr_sv[i] -= 1
+                            break
+                    else:
+                        curr_sv[i] += 1
+                        #print('incremented:', td_features[i], "-", curr_sv)
+
+                        break
+
 
         except IndexError:
             # if the feature isn't in the sv_features list
@@ -83,7 +104,7 @@ def get_sample_feature_vectors(features_of_tweet, training_data_object):
 
 
 def main():
-    td = TrainingData(10)
+    td = TrainingData()
 
     twitter_f = open("twitter_training_data_set.txt", "r")
 
@@ -98,19 +119,31 @@ def main():
         pos = pos_tag(word_tokenize(text_string))
 
         # save all features into featureList
-        features_of_tweet = []
+        postag_tokens_of_tweet = []
         for token in pos:
             feat = token[1]
-            if feat not in features_of_tweet:
-                features_of_tweet.append(feat)
-
-        #print(features_of_tweet)
+            if feat not in postag_tokens_of_tweet:
+                postag_tokens_of_tweet.append(token)
 
         # See if there are features in the list, which matches whats in the list of features of the TD
-        td.add_sample(get_sample_feature_vectors(features_of_tweet, td), text_string)
-    print(td.data)
-    print(td.target)
+        sample_item = get_sample_feature_vectors(postag_tokens_of_tweet, td)
+        td.add_sample(sample_item, text_string)
 
+
+
+
+    for i in range(td.n_samples):
+
+        """
+        if (td.data[i][-1] != 0):
+            print("Data:", td.data[i], " - ", td.text_list[i])
+            print("Label:", td.target[i])
+        """
+        print("Data:", td.data[i].tolist(), " - ", td.text_list[i])
+        print("Label:", td.target[i])
+
+
+    td.save()
 
 if __name__ == "__main__":
     main()
