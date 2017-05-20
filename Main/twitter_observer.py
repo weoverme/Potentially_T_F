@@ -68,7 +68,7 @@ class TwitterObserver:
         """
 
         # create/overwrite @username.txt
-        f = open(self.username+".txt", "w+")
+        f = open("gathered_tweets/"+self.username+".txt", "w+")
 
         # get all tweet ids in ascending order
         tweet_ids = sorted(self.all_tweets.keys())
