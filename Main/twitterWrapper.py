@@ -1,5 +1,6 @@
 import tweepy
 import traceback
+import datetime
 
 
 class TwitterObserver:
@@ -68,7 +69,7 @@ class TwitterObserver:
         """
 
         # create/overwrite @username.txt
-        f = open("gathered_tweets/"+self.username+".txt", "w+")
+        f = open("datasets_twitter/"+self.username+".txt", "w+")
 
         # get all tweet ids in ascending order
         tweet_ids = sorted(self.all_tweets.keys())
@@ -121,14 +122,16 @@ class TwitterObserver:
 
 
 if __name__ == "__main__":
-
-    w_file = open("twitter_training_data_set.txt", "w+")
+    timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
+    w_file = open("datasets_twitter/twitter_training_data_set" + timestamp + ".txt", "w+")
 
     # make training data made up of twitter feed
     tw_users = ["@realDonaldTrump", "BarackObama", "@HillaryClinton",
                  "@SenSanders", "@AdamBandt", "@TurnbullMalcolm",
                  "@TonyAbbottMHR", "@MrKRudd", "@billshortenmp",
                  "@JuliaGillard", "@JoeHockey", "@JulieBishopMP", "@POTUS"]
+
+    # write twitter feed to file
     for i in tw_users:
         tw = TwitterObserver(i)
         # get 50 tweets for each user
@@ -140,11 +143,10 @@ if __name__ == "__main__":
 
             text = all_t[k].replace("\n", " ")
             try:
-                to_write = "0%\t%" + text + "%\t%" + str(k) + "\n"
+                to_write = text + "%\t%" + str(k) + "\n"
                 w_file.write(to_write)
-                #print(to_write)
+
             except UnicodeEncodeError:
-                #print(text)
                 pass
 
     w_file.close()

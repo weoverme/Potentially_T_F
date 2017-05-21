@@ -1,6 +1,9 @@
-import json, requests
-from Main.natural_lang_processor import StatementNatLangProcessor
-from Main.dataset import *
+import requests
+
+from Main.Unused.natural_lang_processor import StatementNatLangProcessor
+
+
+#from Main.dataset import *
 
 class PolitiFactStatement:
 
@@ -99,7 +102,7 @@ if __name__ == "__main__":
     w_file = open("training_data_set.txt", "w+")
 
     # get statements objects
-    PFWrapper.get_statements_by_date(ed, 5)
+    PFWrapper.get_statements_by_date(ed, 100)
     all_items = PFWrapper.statement_map.items()
 
     # translate statement objects into datasets
@@ -110,15 +113,5 @@ if __name__ == "__main__":
         text = val.get_statement_text()
         print(text)
         w_file.write("1%\t%" + text + "%\t%" + key + "\n")
-        """
 
-         classification = input("Is this statement verifiable?\n" + text + "\n")
-         # write classification %\t% text %\t% url
-
-        if classification == str(1): # VER
-             print("1 %\t%" + text + "%\t%" + key)
-             w_file.write("1 %\t%" + text + "%\t%" + key + "\n")
-         else:
-             w_file.write("-1 %\t%" + text + "%\t%" + key)
-         """
     w_file.close()
