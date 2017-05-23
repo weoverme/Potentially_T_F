@@ -1,7 +1,47 @@
 from nltk import *
 
 
-class NatLangProcessor:
+class StatementNatLangProcessor:
+
+    def __init__(self):
+        self.features = []
+
+    def tokenize_statement_by_word(self, statement):
+        word_tok_list = word_tokenize(statement)
+        return word_tok_list
+
+    def show_features_in(self, statement):
+        w_list = self.tokenize_statement_by_word(statement)
+        return pos_tag(w_list)
+
+    def add_features(self, feature):
+        self.features.append(feature)
+
+    def save_features_to_file(self):
+        """
+        Save the list of features to the file: verifiability_features.txt
+
+        :return: None
+        """
+        f = open("verifiability_features.txt", "w+")
+        for feat in self.features:
+            f.write(feat+"/n")
+        f.close()
+
+    def get_features_from_file(self):
+        """
+        Get a list of features from a saved file of features.
+
+        :return:
+        """
+        f_list = []
+        f = open("verifiability_features.txt", "r")
+        for line in f:
+            f_list.append(line)
+        self.features = f_list
+
+
+class TweetNatLangProcessor:
 
     def __init__(self, username):
         self.username = username
@@ -93,7 +133,6 @@ class NatLangProcessor:
             f_list.append(line)
         self.features = f_list
 
-
-
-
+if __name__ == "__main__":
+    pass
 

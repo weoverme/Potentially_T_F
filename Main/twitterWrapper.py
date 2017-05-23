@@ -1,8 +1,9 @@
 import tweepy
 import traceback
+import datetime
 
 
-class TwitterObserver:
+class TwitterWrapper:
 
     """
 
@@ -10,12 +11,7 @@ class TwitterObserver:
 
     """
 
-    def __init__(self, username):
-        # dictionary of tweets initialised
-        self.username = username
-        # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
-        self.all_tweets = {}
-
+    def __init__(self, username, n):
         # My user is  @ray_cho94
         self.access_token = "837846446376271872-PrPyDNixKM7dxCtNrHJ9C73w7XKWzmC"
         self.access_token_secret = "pNEJZv0tFlPFjrvdg08HEFyPTFv2WmbKmDuFlIS8qQOK9"
@@ -26,6 +22,13 @@ class TwitterObserver:
 
         # My copy of the API
         self.api = tweepy.API(self.auth)
+
+        # dictionary of tweets initialised
+        self.username = username
+
+        # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
+        self.all_tweets = {}
+        self.get_tweets_for(n)
 
     def get_tweets_for(self, n):
         """
@@ -38,15 +41,17 @@ class TwitterObserver:
             for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
                 self.add_tweet_to_dic(status.id, status.text)
             # save the tweets, for future reference
-            self.write_tweets_to_file()
-        except tweepy.error.TweepError:
-            traceback.print_exc()
-            print("Exception")
+#            self.write_tweets_to_file()
         except TypeError:
             try:
                 self.get_tweets_for(int(n))
             except TypeError:
                 print("Second argument must be a positive integer value!")
+
+        except tweepy.error.TweepError:
+            #.print_exc()
+            print("Invalid Username")
+            self.username = ""
 
     def add_tweet_to_dic(self, t_id, tweet):
         """
@@ -68,20 +73,20 @@ class TwitterObserver:
         """
 
         # create/overwrite @username.txt
-        f = open(self.username+".txt", "w+")
+        f = open("datasets_twitter/"+self.username+".txt", "w+")
 
         # get all tweet ids in ascending order
         tweet_ids = sorted(self.all_tweets.keys())
 
         # for each tweet
-        for i in tweet_ids:
-            self.all_tweets[i] = " ".join(self.all_tweets[i].split("\n"))
-            f.write(str(i)+" :: "+self.all_tweets[i]+"\n")
+        for tw_id in tweet_ids:
+            self.all_tweets[tw_id] = " ".join(self.all_tweets[tw_id].split("\n"))
+            f.write(str(tw_id)+" :: "+self.all_tweets[tw_id]+"\n")
 
         # end function
         f.close()
 
-    def get_all_tweets(self):
+    def get_all_tweets_from_file(self):
         """
         get all tweets from the object's designated dictionary. This dictionary may exist prior to the instantiation of
         this object, most likely because there has been an instance of this object being used previously.
@@ -118,3 +123,33 @@ class TwitterObserver:
         for i in range(t_len-1, t_len-n-1, -1):
             most_recent.append(self.all_tweets[tweets_sorted[i]])
         print(most_recent)
+
+
+if __name__ == "__main__":
+    timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
+    w_file = open("datasets_twitter/twitter_training_data_raw" + timestamp + ".txt", "w+")
+
+    # make training data made up of twitter feed
+    tw_users = ["@realDonaldTrump", "BarackObama", "@HillaryClinton",
+                 "@SenSanders", "@AdamBandt", "@TurnbullMalcolm",
+                 "@TonyAbbottMHR", "@MrKRudd", "@billshortenmp",
+                 "@JuliaGillard", "@JoeHockey", "@JulieBishopMP", "@POTUS"]
+
+    # write twitter feed to file
+    for i in tw_users:
+        # get 50 tweets for each user
+        tw = TwitterWrapper(i, 50)
+        # write the tweets to the training data file
+        all_t = tw.all_tweets
+        ks = all_t.keys()
+        for k in ks:
+
+            text = all_t[k].replace("\n", " ")
+            try:
+                to_write = text + "%\t%" + str(k) + "\n"
+                w_file.write(to_write)
+
+            except UnicodeEncodeError:
+                pass
+
+    w_file.close()

@@ -30,7 +30,7 @@ def sent_tokenise_tweets(all_tweets):
     return all_tok_list
 
 
-def tokenise_tweets(all_tweets):
+def tokenize_tweets(all_tweets):
     verifiable_tweets = []
     features = ["CD", "VBP", "VBD", "JJ", "JJR", "VBZ"]
 
@@ -63,10 +63,24 @@ def main():
     sent_tokenise_tweets(all_tweets)
     """
     # print verifiable tweets
-    verifiable = tokenise_tweets(all_tweets)
+    verifiable = tokenize_tweets(all_tweets)
     for i in verifiable:
         print(i)
     """
 
+class StatementNatLangProcessor:
 
-main()
+    def __init__(self):
+        self.features = []
+
+    def tokenize_statement_by_word(self, statement):
+        word_tok_list = word_tokenize(statement)
+        return word_tok_list
+
+    def show_features_in(self, statement):
+        w_list = self.tokenize_statement_by_word(statement)
+        return pos_tag(w_list)
+
+
+if "__name__" == main:
+    main()
