@@ -5,8 +5,9 @@ Any screen which appears will always be loaded up from this module.
 
 from tkinter import *
 from tkinter.ttk import *
+
 from Main.twitterWrapper import TwitterWrapper
-from Main.myClassifier import MyClassifier as myclf
+from Main.myClassifier import MyClassifier
 
 class Application(Frame):
 
@@ -19,8 +20,8 @@ class Application(Frame):
         self.create_widgets()
 
         # concerned with managing the back end
-        self.tw_holder = {}
-
+        self.tab_holder = {}
+        self.clf = MyClassifier(load_clf=True)
 
 
 ######################################
@@ -47,20 +48,47 @@ class Application(Frame):
         get_username_button.pack(side='left')
 
     def create_notebook_frame(self):
-        self.notebook = Notebook(self.main_frame)
+        self.notebook = Notebook(self.main_frame, width=480, height=550, padding=5)
         self.notebook.pack()
 
     def add_notebook_tab(self):
         username = self.get_username_callback()
-        #    frame_dic[username] = Frame(notebook)
-        self.notebook.add(Frame(self.notebook), text=username)
 
+        tab_frame = Frame(self.notebook)
+        self.tab_holder[username] = []
         # create a TwitterWrapper for this username
-        self.tw_holder[username] = TwitterWrapper(username, 20)
+        self.tab_holder[username].append(TwitterWrapper(username, 20))
 
         # For each tweet saved by the twitter wrapper,
-        # create a button which gives the user the options to verify
+        # create a Box which gives the user the options to verify
         # or to say that it is in fact verifiable or not
+        tw = self.tab_holder[username][0] # access the TwitterWrapper object
+
+        all_tw_ids = sorted(tw.all_tweets, reverse=True) # all tweet_ids
+
+        tweet_frames = []
+        for tw_id in all_tw_ids:
+            tw_text = tw.all_tweets[tw_id]
+            tw_frame = Frame(tab_frame, background='gray', borderwidth='1', padx=2)
+            tw_frame.pack()
+
+            # text part of the frame
+            tw_frame_text = Label(tw_frame)
+            tw_frame_text['text'] = tw_text
+            tw_frame_text.pack(side='left', fill='x')
+
+
+
+
+
+
+
+
+            tweet_frames.append(tw_frame)
+
+
+        self.tab_holder[username].append(tweet_frames)
+        self.notebook.add(tab_frame, text=username)
 
 
 ###############
@@ -69,6 +97,7 @@ class Application(Frame):
         self.username_ent.delete(0, END)
         self.username_ent.insert(END, "@")
         return val
+
 
 
 if __name__ == '__main__':
