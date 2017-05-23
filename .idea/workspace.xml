@@ -17,14 +17,14 @@
     <favorites_list name="Potentially_T_F" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5675214">
+    <splitter split-orientation="horizontal" split-proportion="0.37893927">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="myClassifier.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Main/myClassifier.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="136">
-                  <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+                <state relative-caret-position="299">
+                  <caret line="324" column="0" lean-forward="true" selection-start-line="324" selection-start-column="0" selection-end-line="324" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                     <element signature="e#813#1233#0" expanded="false" />
@@ -37,21 +37,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="verifiability_features.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Main/verifiability_features.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="187">
-                  <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Application.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Main/Application.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="306">
-                  <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                  <caret line="60" column="29" lean-forward="true" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
                   <folding>
                     <element signature="e#130#151#0" expanded="true" />
                   </folding>
@@ -62,18 +52,37 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="twitterWrapper.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Main/twitterWrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="85">
-                  <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+                <state relative-caret-position="314">
+                  <caret line="132" column="106" lean-forward="false" selection-start-line="132" selection-start-column="106" selection-end-line="132" selection-end-column="106" />
                   <folding>
-                    <element signature="e#0#13#0" expanded="true" />
-                    <element signature="e#1869#2207#0" expanded="false" />
-                    <element signature="e#2862#3866#0" expanded="false" />
-                    <element signature="e#3917#4260#0" expanded="false" />
+                    <element signature="e#1114#1280#1" expanded="false" />
+                    <element signature="e#1849#1931#0" expanded="false" />
+                    <element signature="e#1986#2324#0" expanded="false" />
+                    <element signature="e#1986#2285#1" expanded="false" />
+                    <element signature="e#2370#2474#1" expanded="false" />
+                    <element signature="e#2997#4001#0" expanded="false" />
+                    <element signature="e#2997#3260#1" expanded="false" />
+                    <element signature="e#3434#3493#0" expanded="false" />
+                    <element signature="e#3762#3852#0" expanded="false" />
+                    <element signature="e#4052#4395#0" expanded="false" />
+                    <element signature="e#4052#4139#1" expanded="false" />
+                    <element signature="e#5205#5413#0" expanded="false" />
+                    <element signature="e#5273#5352#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="twitter_training_dataset2017_05_23_10_45_11.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_45_11.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -140,9 +149,13 @@
         <option value="$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_06_08.txt" />
         <option value="$PROJECT_DIR$/Main/Unused/PolitiFactWrapper.py" />
         <option value="$PROJECT_DIR$/Main/test/test_twitterWrapper.py" />
-        <option value="$PROJECT_DIR$/Main/twitterWrapper.py" />
         <option value="$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_52_35.json" />
         <option value="$PROJECT_DIR$/Main/myClassifier.py" />
+        <option value="$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_raw2017_05_22_22_49_27.txt" />
+        <option value="$PROJECT_DIR$/Main/datasets_twitter/@HillaryClinton.txt" />
+        <option value="$PROJECT_DIR$/Main/datasets_twitter/@realDonaldTrump.txt" />
+        <option value="$PROJECT_DIR$/Main/datasets_twitter/@TurnbullMalcolm.txt" />
+        <option value="$PROJECT_DIR$/Main/twitterWrapper.py" />
         <option value="$PROJECT_DIR$/Main/Application.py" />
       </list>
     </option>
@@ -169,8 +182,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -190,20 +201,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Potentially_T_F" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Potentially_T_F" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Potentially_T_F" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Testing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -259,10 +256,12 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="SearchEverywhereHistoryKey" value=":&#9;null&#9;null" />
   </component>
@@ -287,7 +286,7 @@
       <recent name="C:\Users\raych\Desktop\Potentially_T_F\Potentially_T_F\Application" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Application">
+  <component name="RunManager" selected="Python.twitterWrapper">
     <configuration default="false" name="myClassifier" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -544,9 +543,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Application" />
-        <item index="1" class="java.lang.String" itemvalue="Python.myClassifier" />
-        <item index="2" class="java.lang.String" itemvalue="Python.twitterWrapper" />
+        <item index="0" class="java.lang.String" itemvalue="Python.twitterWrapper" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Application" />
+        <item index="2" class="java.lang.String" itemvalue="Python.myClassifier" />
         <item index="3" class="java.lang.String" itemvalue="Python tests.Unittest TestTwitterWrapper.test_get_tweets_for_pos_int" />
         <item index="4" class="java.lang.String" itemvalue="Python tests.Unittest TestTwitterWrapper.test_init_invalid" />
       </list>
@@ -616,13 +615,12 @@
     <frame x="-8" y="-8" width="1552" height="840" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23828125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1529948" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3260274" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06712329" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3931507" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28841147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -632,6 +630,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3260274" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -659,28 +658,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="26" />
+      <option name="time" value="28" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Program Files (x86)/Python36-32/Lib/site-packages/nltk/classify/naivebayes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3442">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Python36-32/Lib/site-packages/nltk/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/@TurnbullMalcolm.txt" />
-    <entry file="file://$PROJECT_DIR$/Testing/datasets/training_data_2017_05_20_00_58_07.txt" />
-    <entry file="file://$PROJECT_DIR$/Testing/datasets/training_data_2017_05_19_23_28_02.txt" />
     <entry file="file://$PROJECT_DIR$/Testing/datasets/training_data_2017_05_19_23_01_58.txt" />
     <entry file="file://$PROJECT_DIR$/Testing/datasets/training_data_2017_05_20_00_55_06.txt" />
     <entry file="file://$PROJECT_DIR$/Testing/datasets/training_data_2017_05_20_00_58_43.txt" />
@@ -719,7 +701,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3893">
           <caret line="229" column="0" lean-forward="false" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -727,22 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#87#105#0" expanded="false" />
-            <element signature="e#168#237#0" expanded="false" />
-            <element signature="e#290#372#0" expanded="false" />
-            <element signature="e#419#448#0" expanded="false" />
-            <element signature="e#495#744#0" expanded="false" />
-            <element signature="e#792#1045#0" expanded="false" />
-            <element signature="e#1120#1200#0" expanded="false" />
-            <element signature="e#1236#1483#0" expanded="false" />
-            <element signature="e#1532#2367#0" expanded="false" />
-            <element signature="e#2419#2843#0" expanded="false" />
-            <element signature="e#2914#3167#0" expanded="false" />
-            <element signature="e#3214#3243#0" expanded="false" />
-            <element signature="e#3290#3539#0" expanded="false" />
-            <element signature="e#3587#3840#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -764,7 +729,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-102">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -772,7 +736,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,7 +743,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="36" lean-forward="false" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -788,7 +750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1173">
           <caret line="6" column="128" lean-forward="true" selection-start-line="6" selection-start-column="128" selection-end-line="6" selection-end-column="128" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -796,15 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="99" column="38" lean-forward="false" selection-start-line="97" selection-start-column="12" selection-end-line="99" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-            <element signature="e#183#411#0" expanded="false" />
-            <element signature="e#464#749#0" expanded="false" />
-            <element signature="e#794#813#0" expanded="false" />
-            <element signature="e#863#1126#0" expanded="false" />
-            <element signature="e#1184#1577#0" expanded="false" />
-            <element signature="e#1639#2095#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -812,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="477">
           <caret line="594" column="0" lean-forward="false" selection-start-line="594" selection-start-column="0" selection-end-line="594" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -820,41 +771,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="389">
           <caret line="80" column="52" lean-forward="false" selection-start-line="80" selection-start-column="52" selection-end-line="80" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_06_08.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_51_51.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="68" column="95" lean-forward="false" selection-start-line="68" selection-start-column="95" selection-end-line="68" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_55_21.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_06_08.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_51_51.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_04_55_21.txt" />
     <entry file="file://$PROJECT_DIR$/Main/Unused/PolitiFactWrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="72" />
-          <folding>
-            <element signature="e#2872#2976#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -892,82 +818,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_11_32_10.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_22_22_52_18.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_00_22_54.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_42_23.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_45_11.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1224">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_set2017_05_22_11_32_10.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_22_22_52_18.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_00_22_54.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_42_23.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_49_45.json" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_52_35.json" />
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_54_57.json" />
     <entry file="file://$PROJECT_DIR$/Main/verifiability_features.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_49_45.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="0" column="75635" lean-forward="true" selection-start-line="0" selection-start-column="75635" selection-end-line="0" selection-end-column="75759" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_52_35.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="0" column="75399" lean-forward="false" selection-start-line="0" selection-start-column="75399" selection-end-line="0" selection-end-column="75759" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_54_57.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="879">
-          <caret line="0" column="75726" lean-forward="false" selection-start-line="0" selection-start-column="75726" selection-end-line="0" selection-end-column="75726" />
+          <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/myClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="299">
+          <caret line="324" column="0" lean-forward="true" selection-start-line="324" selection-start-column="0" selection-end-line="324" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#813#1233#0" expanded="false" />
@@ -979,15 +848,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/@AdamBandt.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/@HillaryClinton.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/@realDonaldTrump.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_data_raw2017_05_22_22_49_27.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-612">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/@TurnbullMalcolm.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/datasets_twitter/twitter_training_dataset2017_05_23_10_45_11.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Main/twitterWrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="132" column="106" lean-forward="false" selection-start-line="132" selection-start-column="106" selection-end-line="132" selection-end-column="106" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1869#2207#0" expanded="false" />
-            <element signature="e#2862#3866#0" expanded="false" />
-            <element signature="e#3917#4260#0" expanded="false" />
+            <element signature="e#1114#1280#1" expanded="false" />
+            <element signature="e#1849#1931#0" expanded="false" />
+            <element signature="e#1986#2324#0" expanded="false" />
+            <element signature="e#1986#2285#1" expanded="false" />
+            <element signature="e#2370#2474#1" expanded="false" />
+            <element signature="e#2997#4001#0" expanded="false" />
+            <element signature="e#2997#3260#1" expanded="false" />
+            <element signature="e#3434#3493#0" expanded="false" />
+            <element signature="e#3762#3852#0" expanded="false" />
+            <element signature="e#4052#4395#0" expanded="false" />
+            <element signature="e#4052#4139#1" expanded="false" />
+            <element signature="e#5205#5413#0" expanded="false" />
+            <element signature="e#5273#5352#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -995,7 +921,7 @@
     <entry file="file://$PROJECT_DIR$/Main/Application.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <caret line="60" column="29" lean-forward="true" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
           <folding>
             <element signature="e#130#151#0" expanded="true" />
           </folding>

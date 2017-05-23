@@ -7,7 +7,9 @@ class TwitterWrapper:
 
     """
 
-    One Twitter Observer for one user.
+    One Twitter Wrapper for one username.
+    Instantiating a TwitterWrapper gathers N number of tweets and saves it to
+    the dictionary self.all_tweets.
 
     """
 
@@ -28,6 +30,7 @@ class TwitterWrapper:
 
         # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
         self.all_tweets = {}
+
         self.get_tweets_for(n)
 
     def get_tweets_for(self, n):
@@ -41,7 +44,7 @@ class TwitterWrapper:
             for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
                 self.add_tweet_to_dic(status.id, status.text)
             # save the tweets, for future reference
-#            self.write_tweets_to_file()
+            self.write_tweets_to_file()
         except TypeError:
             try:
                 self.get_tweets_for(int(n))
@@ -73,7 +76,7 @@ class TwitterWrapper:
         """
 
         # create/overwrite @username.txt
-        f = open("datasets_twitter/"+self.username+".txt", "w+")
+        f = open("datasets_twitter/"+self.username+".txt", "w+", encoding="UTF-8")
 
         # get all tweet ids in ascending order
         tweet_ids = sorted(self.all_tweets.keys())
@@ -127,7 +130,7 @@ class TwitterWrapper:
 
 if __name__ == "__main__":
     timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
-    w_file = open("datasets_twitter/twitter_training_data_raw" + timestamp + ".txt", "w+")
+    w_file = open("datasets_twitter/twitter_training_data_raw" + timestamp + ".txt", "w+", encoding="UTF-8")
 
     # make training data made up of twitter feed
     tw_users = ["@realDonaldTrump", "BarackObama", "@HillaryClinton",
@@ -138,7 +141,7 @@ if __name__ == "__main__":
     # write twitter feed to file
     for i in tw_users:
         # get 50 tweets for each user
-        tw = TwitterWrapper(i, 50)
+        tw = TwitterWrapper(i, 20)
         # write the tweets to the training data file
         all_t = tw.all_tweets
         ks = all_t.keys()

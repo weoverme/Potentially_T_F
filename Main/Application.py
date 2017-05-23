@@ -5,6 +5,8 @@ Any screen which appears will always be loaded up from this module.
 
 from tkinter import *
 from tkinter.ttk import *
+from Main.twitterWrapper import TwitterWrapper
+from Main.myClassifier import MyClassifier as myclf
 
 class Application(Frame):
 
@@ -16,8 +18,12 @@ class Application(Frame):
         self.master.title("Potentially T/F")
         self.create_widgets()
 
+        # concerned with managing the back end
+        self.tw_holder = {}
 
 
+
+######################################
     def create_widgets(self):
         self.create_main_frame()
         self.create_add_user_frame()
@@ -49,8 +55,15 @@ class Application(Frame):
         #    frame_dic[username] = Frame(notebook)
         self.notebook.add(Frame(self.notebook), text=username)
 
+        # create a TwitterWrapper for this username
+        self.tw_holder[username] = TwitterWrapper(username, 20)
+
+        # For each tweet saved by the twitter wrapper,
+        # create a button which gives the user the options to verify
+        # or to say that it is in fact verifiable or not
 
 
+###############
     def get_username_callback(self):
         val = self.username_ent.get()
         self.username_ent.delete(0, END)
