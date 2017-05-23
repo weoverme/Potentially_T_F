@@ -3,7 +3,7 @@ import traceback
 import datetime
 
 
-class TwitterObserver:
+class TwitterWrapper:
 
     """
 
@@ -11,12 +11,7 @@ class TwitterObserver:
 
     """
 
-    def __init__(self, username):
-        # dictionary of tweets initialised
-        self.username = username
-        # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
-        self.all_tweets = {}
-
+    def __init__(self, username, n):
         # My user is  @ray_cho94
         self.access_token = "837846446376271872-PrPyDNixKM7dxCtNrHJ9C73w7XKWzmC"
         self.access_token_secret = "pNEJZv0tFlPFjrvdg08HEFyPTFv2WmbKmDuFlIS8qQOK9"
@@ -27,6 +22,13 @@ class TwitterObserver:
 
         # My copy of the API
         self.api = tweepy.API(self.auth)
+
+        # dictionary of tweets initialised
+        self.username = username
+
+        # dictionary 'all_tweets' will be in the form of    "id" : "tweet_text"
+        self.all_tweets = {}
+        self.get_tweets_for(n)
 
     def get_tweets_for(self, n):
         """
@@ -40,14 +42,16 @@ class TwitterObserver:
                 self.add_tweet_to_dic(status.id, status.text)
             # save the tweets, for future reference
 #            self.write_tweets_to_file()
-        except tweepy.error.TweepError:
-            traceback.print_exc()
-            print("Exception")
         except TypeError:
             try:
                 self.get_tweets_for(int(n))
             except TypeError:
                 print("Second argument must be a positive integer value!")
+
+        except tweepy.error.TweepError:
+            #.print_exc()
+            print("Invalid Username")
+            self.username = ""
 
     def add_tweet_to_dic(self, t_id, tweet):
         """
@@ -123,7 +127,7 @@ class TwitterObserver:
 
 if __name__ == "__main__":
     timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
-    w_file = open("datasets_twitter/twitter_training_data_set" + timestamp + ".txt", "w+")
+    w_file = open("datasets_twitter/twitter_training_data_raw" + timestamp + ".txt", "w+")
 
     # make training data made up of twitter feed
     tw_users = ["@realDonaldTrump", "BarackObama", "@HillaryClinton",
@@ -133,9 +137,8 @@ if __name__ == "__main__":
 
     # write twitter feed to file
     for i in tw_users:
-        tw = TwitterObserver(i)
         # get 50 tweets for each user
-        tw.get_tweets_for(50)
+        tw = TwitterWrapper(i, 50)
         # write the tweets to the training data file
         all_t = tw.all_tweets
         ks = all_t.keys()

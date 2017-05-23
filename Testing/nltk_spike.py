@@ -30,7 +30,7 @@ def sent_tokenise_tweets(all_tweets):
     return all_tok_list
 
 
-def tokenise_tweets(all_tweets):
+def tokenize_tweets(all_tweets):
     verifiable_tweets = []
     features = ["CD", "VBP", "VBD", "JJ", "JJR", "VBZ"]
 
@@ -63,7 +63,7 @@ def main():
     sent_tokenise_tweets(all_tweets)
     """
     # print verifiable tweets
-    verifiable = tokenise_tweets(all_tweets)
+    verifiable = tokenize_tweets(all_tweets)
     for i in verifiable:
         print(i)
     """

@@ -16,6 +16,8 @@ class Application(Frame):
         self.master.title("Potentially T/F")
         self.create_widgets()
 
+
+
     def create_widgets(self):
         self.create_main_frame()
         self.create_add_user_frame()
@@ -46,6 +48,8 @@ class Application(Frame):
         username = self.get_username_callback()
         #    frame_dic[username] = Frame(notebook)
         self.notebook.add(Frame(self.notebook), text=username)
+
+
 
     def get_username_callback(self):
         val = self.username_ent.get()

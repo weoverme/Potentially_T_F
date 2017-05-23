@@ -1,27 +1,34 @@
 from nltk import *
 from nltk.classify import SklearnClassifier
 from sklearn.svm import SVC
-from sklearn.externals import joblib
-import glob, os
-
-
-##############################################################
+from sklearn.externals import joblib  # saving the clf
+import glob
+import os
+import datetime  # for new file
+import json  # to save training_data to file
 
 
 class MyClassifier:
-    def __init__(self, load=False):
-        self.features = self.__get_support_vector_features()
+    def __init__(self, load_clf=False, load_tr_data=False):
+        self.features = self.__load_support_vector_features()
         self.training_data = []
         self.n_samples = 0
-        self.tweets_from_file = self.__get_tweets_from_file()
-        if load:
+        self.tweets_from_file = self.__load_tweets_from_file()
+
+        # Classifier loading
+        if load_clf:
             self.load_clf()
         else:
             self.clf = SklearnClassifier(SVC(), sparse=False)
 
-    def __get_tweets_from_file(self):
+        # Training Data loading
+        if load_tr_data:
+            self.__load_training_data()
+
+
+    def __load_tweets_from_file(self):
         # open latest file
-        list_of_files = glob.glob("datasets_twitter/twitter_training_data_set*.txt")
+        list_of_files = glob.glob("datasets_twitter/twitter_training_data_raw*.txt")
         latest_file = max(list_of_files, key=os.path.getctime)
         f = open(latest_file, "r")
 
@@ -29,11 +36,11 @@ class MyClassifier:
         for line in f:
             line = line.split("%\t%")
             tweet_text, tweet_id = line[0], line[1]
-            tweet_list.append(tweet_text, tweet_id)
+            tweet_list.append((tweet_text, tweet_id))
 
         return tweet_list
 
-    def __get_support_vector_features(self):
+    def __load_support_vector_features(self):
         feature_f = open("verifiability_features.txt", "r")
 
         # get all features
@@ -106,7 +113,7 @@ class MyClassifier:
         else:
             return "NVER"
 
-    def assemble_training_data(self):
+    def __assemble_training_data(self):
         """
         Construct the training data using the twitter training data set.
 
@@ -133,9 +140,33 @@ class MyClassifier:
 
         # repeat
 
-    def train_with_SVC(self):
-        self.assemble_training_data()
+    def __save_training_data(self):
+        timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
+        f = open("datasets_twitter/twitter_training_dataset"+timestamp+".json", "w+")
+        json_data = json.dumps(self.training_data)
+        #print(json_data)
+        f.write(json_data)
+        f.close()
+
+    def __load_training_data(self):
+        list_of_files = glob.glob("datasets_twitter/twitter_training_dataset*.txt")
+        latest_file = max(list_of_files, key=os.path.getctime)
+        f = open(latest_file, "r")
+        s = f.readline()
+        js = json.loads(s)
+        for i in js:
+            tup = (i[0], i[1]) # sample, target
+            self.training_data.append(tup)
+
+    def train_with_svc(self):
+        # make the training data
+        self.__assemble_training_data()
+
+        # Train the classifier
         self.clf.train(self.training_data)
+
+        # save classifier as soon as it is trained
+        self.save_clf()
 
     def predict_single(self, test_text):
         """
@@ -147,25 +178,27 @@ class MyClassifier:
 
         test_sample = self.__get_sample(test_text)
         test_dict = {}
-        for index in range(self.features):
+        for index in range(len(self.features)):
             test_dict[self.features[index]] = test_sample[index]
 
-        pred = self.clf.predict([test_dict])
+        pred = self.clf.classify_many([test_dict])
         print("Prediction:", pred)
-        feedback = input("Is this prediction correct? Y/N")
+        feedback = input("Is this prediction correct? Y/N\t")
 
         # Make data + target into a tuple
         if feedback == "Y" or feedback == "y":
-            tup = (test_dict, pred)
-        else:
+            tup = (test_dict, pred[0])
+        elif feedback == "N" or feedback == "n":
             # correct the target and make into a tuple
-            if pred == "VER":
+            if pred[0] == "VER":
                 tup = (test_dict, "NVER")
             else:
                 tup = (test_dict, "VER")
 
         # add to self.training_data
+        print(tup)
         self.training_data.append(tup)
+        self.__save_training_data()
 
     def predict_multiple(self, test_list):
         """
@@ -174,19 +207,21 @@ class MyClassifier:
         :param test_list:
         :return:
         """
+        # translate test_list into clf passable data format
         test_data = []
         for i in test_list:
             curr_test_sample = self.__get_sample(i)
             test_dict = {}
-            for index in range(self.features):
+            for index in range(len(self.features)):
                 test_dict[self.features[index]] = curr_test_sample[index]
 
             test_data.append(test_dict)
 
-        pred = self.clf.predict([test_data])
-        print("Prediction:", pred)
+        # predict
+        pred = self.clf.classify_many(test_data)
+        print("Predictions:", pred)
 
-        feedback = input("Are these predictions correct? Y/N")
+        feedback = input("Are these predictions correct? Y/N\t")
 
         # Make data + target into a tuple
         if feedback == "Y" or feedback == "y":
@@ -275,4 +310,15 @@ RBS         adjective - superlative
 
 
 """
+
+if __name__ == "__main__":
+    clf = MyClassifier(True, False)
+    clf.train_with_svc()
+
+    text1 = "You must get it for our future."
+    text2 = "In order to obtain the paper, we must buy the paper"
+
+    #clf.predict_single(text2)
+    clf.predict_multiple([text1, text2])
+
 
