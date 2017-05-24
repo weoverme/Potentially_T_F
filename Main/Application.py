@@ -98,18 +98,21 @@ class Application(Frame):
         self.tab_holder[username].append(tweet_frames)
         """
 
-        tab_frame = Frame(self.notebook)
+        # cannot have a tab with empty username
+        if username != "@":
 
-        self.tab_holder[username] = TwitterWrapper(username, 20)
-        self.notebook.add(tab_frame, text=username)
+            tab_frame = Frame(self.notebook)
 
-        tweet_listbox = Listbox(tab_frame, width=100, height=20, selectmode=SINGLE) # width=X-chars, height=Y-lines
-        #tweet_listbox.pack()
-        self.add_tweets_to_listbox(username, tweet_listbox)
-        tweet_listbox.pack()
+            self.tab_holder[username] = TwitterWrapper(username, 20)
+            self.notebook.add(tab_frame, text=username)
+
+            tweet_listbox = Listbox(tab_frame, width=100, height=22, selectmode=SINGLE) # width=X-chars, height=Y-lines
+            #tweet_listbox.pack()
+            self.add_tweets_to_listbox(username, tweet_listbox)
+            tweet_listbox.pack()
 
     def add_tweets_to_listbox(self, username, listbox):
-        user_tweet_ids = sorted(self.tab_holder[username].all_tweets.keys())
+        user_tweet_ids = sorted(self.tab_holder[username].all_tweets.keys(), reverse=True)
 
         for tw_id in user_tweet_ids:
             tw_text = self.tab_holder[username].all_tweets[tw_id]
