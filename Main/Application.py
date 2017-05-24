@@ -120,8 +120,14 @@ class Application(Frame):
             try:
                 listbox.insert(END, tw_text)
             except TclError:
+                # remove the emojis out of BMP range
+                tw_text = tw_text.encode(encoding='cp1251', errors='ignore').decode(encoding='cp1251')
+
+                # encode text in UTF-8, just in case its not
+                tw_text = tw_text.encode(encoding='utf-8').decode(encoding='utf-8')
+                listbox.insert(END, tw_text)
                 print(tw_text)
-                pass
+
 
     def create_description_frame(self):
         self.desc_frame = LabelFrame(self.main_frame, text="Tweet Description")
