@@ -54,68 +54,36 @@ class Application(Frame):
 
     def add_notebook_tab(self):
         username = self.get_username_callback()
-        """
-        self.tab_holder[username] = []
-
-
-        # create a TwitterWrapper for this username
-        self.tab_holder[username].append(TwitterWrapper(username, 20))
-
-        # For each tweet saved by the twitter wrapper,
-        # create a Box which gives the user the options to verify
-        # or to say that it is in fact verifiable or not
-        tw = self.tab_holder[username][0] # access the TwitterWrapper object
-
-        all_tw_ids = sorted(tw.all_tweets, reverse=True) # all tweet_ids
-
-
-        tweet_frames = []
-        for tw_id in all_tw_ids:
-            tw_text = tw.all_tweets[tw_id]
-            tw_frame = Frame(tab_frame, borderwidth=1, width=460, height=100)
-            tw_frame.pack(fill='x', side='left', padx=2, pady=1)
-
-            # text part of the frame
-            tw_frame_text = Label(tw_frame)
-#            tw_frame_text['text'] = tw_text
-
-            try:
-                tw_frame_text['text'] = tw_text
-                tw_frame_text.pack(side='left', fill='x')
-                input("Press enter")
-            except TclError:
-                print(tw_text)
-
-
-
-
-
-
-
-            tweet_frames.append(tw_frame)
-
-
-        self.tab_holder[username].append(tweet_frames)
-        """
 
         # cannot have a tab with empty username
         if username != "@":
 
             tab_frame = Frame(self.notebook)
-
-            self.tab_holder[username] = TwitterWrapper(username, 20)
             self.notebook.add(tab_frame, text=username)
 
-            tweet_listbox = Listbox(tab_frame, width=100, height=22, selectmode=SINGLE) # width=X-chars, height=Y-lines
-            #tweet_listbox.pack()
-            self.add_tweets_to_listbox(username, tweet_listbox)
+            # make TwitterWrapper
+            tWrapper = TwitterWrapper(username, 20)
+
+            # Create listbox in tab_frame
+            tweet_listbox = Listbox(tab_frame, width=100, height=20, selectmode=SINGLE) # width=X-chars, height=Y-lines
             tweet_listbox.pack()
 
-    def add_tweets_to_listbox(self, username, listbox):
-        user_tweet_ids = sorted(self.tab_holder[username].all_tweets.keys(), reverse=True)
+            # create referencing points
+            self.tab_holder[username] = [tWrapper, tweet_listbox]  # list holds TwitterWrapper, tweet_listbox
+
+            self.update_listbox_tweets(username, tweet_listbox)
+
+            refresh_button = Button(tab_frame, text="Refresh", command=self.update_tweets)
+            refresh_button.pack()
+            # set up bindings
+
+            tweet_listbox.bind("<<ListboxSelect>>", self.update_desc_contents)
+
+    def update_listbox_tweets(self, username, listbox):
+        user_tweet_ids = sorted(self.tab_holder[username][0].all_tweets.keys(), reverse=True)
 
         for tw_id in user_tweet_ids:
-            tw_text = self.tab_holder[username].all_tweets[tw_id]
+            tw_text = self.tab_holder[username][0].all_tweets[tw_id]
             # append to end of listbox
             try:
                 listbox.insert(END, tw_text)
@@ -126,8 +94,30 @@ class Application(Frame):
                 # encode text in UTF-8, just in case its not
                 tw_text = tw_text.encode(encoding='utf-8').decode(encoding='utf-8')
                 listbox.insert(END, tw_text)
-                print(tw_text)
 
+    def update_tweets(self):
+        """
+        Updates tweets for current tab's username
+        :return:
+        """
+        curr_tab_index = self.notebook.index(tab_id=CURRENT)
+        curr_tab = self.notebook.tabs()[curr_tab_index]
+
+        # get username
+        username = self.notebook.tab(CURRENT, 'text')
+
+        # get listbox
+        tw_listbox = self.tab_holder[username][1]
+
+        # update the tweets
+        self.update_listbox_tweets(username, tw_listbox)
+
+
+
+        """
+        self.tab_holder[username].get_most_recent_tweets(20)
+        self.update_listbox_tweets(username, listbox)
+        """
 
     def create_description_frame(self):
         self.desc_frame = LabelFrame(self.main_frame, text="Tweet Description")
@@ -136,11 +126,17 @@ class Application(Frame):
 
         self.desc_text = Label(self.desc_frame)
         self.desc_text.pack()
-        self.update_desc_contents("text")
 
-    def update_desc_contents(self, new_text):
-        self.desc_text['text'] = new_text
-        self.desc_text.pack()
+    def update_desc_contents(self, listbox):
+        # get index of current selection
+        curr_index = listbox.curselection()
+        # get value of current selection
+        new_text = listbox.get(curr_index)
+
+        print(type(new_text))
+
+        #self.desc_text['text'] = new_text
+        #self.desc_text.pack()
 
     ###############
     def get_username_callback(self):

@@ -50,7 +50,7 @@ class TwitterWrapper:
             try:
                 self.get_tweets_for(int(n))
             except TypeError:
-                print("Second argument must be a positive integer value!")
+                print("Argument must be a positive integer value!")
 
         except tweepy.error.TweepError:
             #.print_exc()
@@ -124,12 +124,12 @@ class TwitterWrapper:
         :param n:
         :return:
         """
-        tweets_sorted = sorted(self.all_tweets.keys())
+        tweets_sorted = sorted(self.all_tweets.keys(), reverse=True)
         most_recent = []
         t_len = len(tweets_sorted)
         for i in range(t_len-1, t_len-n-1, -1):
             most_recent.append(self.all_tweets[tweets_sorted[i]])
-        print(most_recent)
+        return most_recent
 
 
 if __name__ == "__main__":
