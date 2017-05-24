@@ -1,6 +1,7 @@
 import tweepy
 import traceback
 import datetime
+import re as re
 
 
 class TwitterWrapper:
@@ -84,7 +85,10 @@ class TwitterWrapper:
         # for each tweet
         for tw_id in tweet_ids:
             self.all_tweets[tw_id] = " ".join(self.all_tweets[tw_id].split("\n"))
-            f.write(str(tw_id)+" :: "+self.all_tweets[tw_id]+"\n")
+
+            tw_text = self.all_tweets[tw_id]
+
+            f.write(str(tw_id)+" :: "+tw_text+"\n")
 
         # end function
         f.close()
