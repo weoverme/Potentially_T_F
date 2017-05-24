@@ -43,7 +43,9 @@ class TwitterWrapper:
         try:
             # for each tweet, add it to the object's dictionary
             for status in tweepy.Cursor(self.api.user_timeline, id=self.username).items(n):
-                self.add_tweet_to_dic(status.id, status.text)
+                # replace ampersand html code to actual &
+                text = status.text.replace("&amp;", "&")
+                self.add_tweet_to_dic(status.id, text)
             # save the tweets, for future reference
             self.write_tweets_to_file()
         except TypeError:

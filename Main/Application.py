@@ -8,6 +8,7 @@ from tkinter.ttk import *
 
 from Main.twitterWrapper import TwitterWrapper
 from Main.myClassifier import MyClassifier
+from nltk import *
 
 class Application(Frame):
 
@@ -23,7 +24,6 @@ class Application(Frame):
         # concerned with managing the back end
         self.tab_holder = {}
         self.clf = MyClassifier(load_clf=True)
-
 
     def create_widgets(self):
         self.create_main_frame()
@@ -118,8 +118,11 @@ class Application(Frame):
         self.desc_frame.configure(borderwidth=1)
         self.desc_frame.pack()
 
-        self.desc_text = Label(self.desc_frame)
-        self.desc_text.pack()
+        self.desc_text_line1 = Label(self.desc_frame) # max width will be 90 characters
+        self.desc_text_line1.pack()
+        self.desc_text_line2 = Label(self.desc_frame) # max width will be 50 characters
+        self.desc_text_line2.pack()
+
 
     def update_desc_contents(self, event):
         # get current tab
@@ -137,19 +140,25 @@ class Application(Frame):
 
         # get value of current selection
         new_text = tw_listbox.get(curr_index)
-
+        print(len(new_text))
         # update text in description_frame
-        self.desc_text['text'] = new_text
-        self.desc_text.pack()
+        if len(new_text) > 100:
+            new_text_list = word_tokenize(new_text)
+            n_words = len(new_text_list)
+            self.desc_text_line1['text'] = ' '.join(new_text_list[0:(n_words//2)])
+            self.desc_text_line2['text'] = ' '.join(new_text_list[((n_words // 2) + 1):])
+        else:
+            self.desc_text_line1['text'] = new_text
+#        self.desc_text_line1.pack()
 
-    ###############
     def get_username_callback(self):
         val = self.username_ent.get()
         self.username_ent.delete(0, END)
         self.username_ent.insert(END, "@")
         return val
 
-
+#####################
+# TODO:
 
 if __name__ == '__main__':
     root = Tk()
