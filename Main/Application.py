@@ -100,6 +100,7 @@ class Application(Frame):
         Updates tweets for current tab's username
         :return:
         """
+        # get current tab
         curr_tab_index = self.notebook.index(tab_id=CURRENT)
         curr_tab = self.notebook.tabs()[curr_tab_index]
 
@@ -112,13 +113,6 @@ class Application(Frame):
         # update the tweets
         self.update_listbox_tweets(username, tw_listbox)
 
-
-
-        """
-        self.tab_holder[username].get_most_recent_tweets(20)
-        self.update_listbox_tweets(username, listbox)
-        """
-
     def create_description_frame(self):
         self.desc_frame = LabelFrame(self.main_frame, text="Tweet Description")
         self.desc_frame.configure(borderwidth=1)
@@ -127,16 +121,26 @@ class Application(Frame):
         self.desc_text = Label(self.desc_frame)
         self.desc_text.pack()
 
-    def update_desc_contents(self, listbox):
+    def update_desc_contents(self, event):
+        # get current tab
+        curr_tab_index = self.notebook.index(tab_id=CURRENT)
+        curr_tab = self.notebook.tabs()[curr_tab_index]
+
+        # get username
+        username = self.notebook.tab(CURRENT, 'text')
+
+        # get listbox
+        tw_listbox = self.tab_holder[username][1]
+
         # get index of current selection
-        curr_index = listbox.curselection()
+        curr_index = tw_listbox.curselection()
+
         # get value of current selection
-        new_text = listbox.get(curr_index)
+        new_text = tw_listbox.get(curr_index)
 
-        print(type(new_text))
-
-        #self.desc_text['text'] = new_text
-        #self.desc_text.pack()
+        # update text in description_frame
+        self.desc_text['text'] = new_text
+        self.desc_text.pack()
 
     ###############
     def get_username_callback(self):
