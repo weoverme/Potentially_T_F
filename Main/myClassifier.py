@@ -13,7 +13,7 @@ class MyClassifier:
         self.features = self.__load_support_vector_features()
         self.training_data = []
         self.n_samples = 0
-        self.all_tweets = self.__load_tweets_from_file() # list not dict
+        self.all_tweets = self.__load_tweets_from_file()  # list not dict
 
         # Classifier loading
         if load_clf:
@@ -153,7 +153,7 @@ class MyClassifier:
         s = f.readline()
         js = json.loads(s)
         for i in js:
-            tup = (i[0], i[1]) # sample, target
+            tup = (i[0], i[1])  # sample, target
             self.training_data.append(tup)
 
     def train_with_svc(self):
@@ -203,8 +203,6 @@ class MyClassifier:
         pred = self.clf.classify_many(test_data)
         return pred
 
-##########
-
     def update_pred_into_training(self, test_tweet, pred_val):
         """
         Adds predicted ( {feat:sample}, target ) to training data
@@ -229,7 +227,7 @@ class MyClassifier:
         for i in range(len(self.all_tweets)):
             tweet = self.all_tweets[i]
 
-            if test_tweet_text == tweet[0]: # if found
+            if test_tweet_text == tweet[0]:   # if found
                 test_sample = self.__get_sample(test_tweet_text)
 
                 # make into trainable data format
@@ -260,8 +258,7 @@ class MyClassifier:
 
             # add tweet to all_tweets and training data
             # get tweet_id
-
-            self.all_tweets.append(tweet)
+            self.all_tweets.append(test_tweet)
             self.training_data.append(tup)
 
             # consistency
@@ -271,8 +268,6 @@ class MyClassifier:
         self.__save_training_data()
         # train the classifier again
         self.train_with_svc()
-
-############
 
     def load_clf(self):
         """

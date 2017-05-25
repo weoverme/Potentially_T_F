@@ -10,6 +10,7 @@ from Main.twitterWrapper import TwitterWrapper
 from Main.myClassifier import MyClassifier
 from nltk import *
 
+
 class Application(Frame):
 
     def __init__(self, master=None):
@@ -221,12 +222,6 @@ class Application(Frame):
         self.username_ent.delete(0, tk.END)
         self.username_ent.insert(tk.END, "@")
         return val
-
-#######################################################################
-# TODO: Add to self.desc_frame:                                       #
-
-#       2) Taking feedback from above buttons to modify predictions   #
-#######################################################################
 
 if __name__ == '__main__':
     root = tk.Tk()
