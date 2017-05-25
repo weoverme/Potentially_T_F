@@ -30,7 +30,7 @@ class MyClassifier:
         # open latest file
         list_of_files = glob.glob("datasets_twitter/twitter_training_data_raw*.txt")
         latest_file = max(list_of_files, key=os.path.getctime)
-        f = open(latest_file, "r")
+        f = open(latest_file, "r", encoding="UTF-8")
 
         tweet_list = []
         for line in f:
@@ -183,6 +183,10 @@ class MyClassifier:
 
         pred = self.clf.classify_many([test_dict])
         print("Prediction:", pred)
+
+
+        """
+        WILL BRING BACK ONCE APPLICATION SIDE IS SEMI-WORKING
         feedback = input("Is this prediction correct? Y/N\t")
 
         # Make data + target into a tuple
@@ -199,6 +203,7 @@ class MyClassifier:
         print(tup)
         self.training_data.append(tup)
         self.__save_training_data()
+        """
 
     def predict_multiple(self, test_list):
         """
@@ -220,6 +225,8 @@ class MyClassifier:
         # predict
         pred = self.clf.classify_many(test_data)
         print("Predictions:", pred)
+        """
+        WILL BRING BACK ONCE APPLICATION SIDE IS SEMI-WORKING
 
         feedback = input("Are these predictions correct? Y/N\t")
 
@@ -235,6 +242,7 @@ class MyClassifier:
         else:
             # must correct test data manually before adding into training data
             print("Please predict each separately to add samples into training dataset.")
+        """
 
     def load_clf(self):
         """
