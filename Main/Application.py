@@ -182,17 +182,15 @@ class Application(Frame):
     def update_ver_nver_prediction(self, prediction):
         # select the radio button, according to the prediction value
         if prediction[0] == "VER":
-            #self.nver_radio.configure(bg=None)
+            # select VER
             self.nver_radio.deselect()
             self.ver_radio.select()
-            #self.ver_radio.configure(bg=None)
         else:
-            #self.ver_radio.configure(bg=None)
+            # select NVER
             self.ver_radio.deselect()
             self.nver_radio.select()
-            #self.nver_radio.configure(bg=None)
 
-    def change_ver_nver_value(self):
+    def change_ver_to_nver(self):
         pass
 
 
