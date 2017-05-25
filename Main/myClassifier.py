@@ -144,12 +144,11 @@ class MyClassifier:
         timestamp = '{:%Y_%m_%d_%H_%M_%S}'.format(datetime.datetime.now())
         f = open("datasets_twitter/twitter_training_dataset"+timestamp+".json", "w+")
         json_data = json.dumps(self.training_data)
-        #print(json_data)
         f.write(json_data)
         f.close()
 
     def __load_training_data(self):
-        list_of_files = glob.glob("datasets_twitter/twitter_training_dataset*.txt")
+        list_of_files = glob.glob("datasets_twitter/twitter_training_dataset*.json")
         latest_file = max(list_of_files, key=os.path.getctime)
         f = open(latest_file, "r")
         s = f.readline()
@@ -182,7 +181,7 @@ class MyClassifier:
             test_dict[self.features[index]] = test_sample[index]
 
         pred = self.clf.classify_many([test_dict])
-        print("Prediction:", pred)
+        return (pred[0], test_sample)
 
 
         """
@@ -224,7 +223,7 @@ class MyClassifier:
 
         # predict
         pred = self.clf.classify_many(test_data)
-        print("Predictions:", pred)
+        return pred
         """
         WILL BRING BACK ONCE APPLICATION SIDE IS SEMI-WORKING
 
@@ -309,7 +308,6 @@ VBG         verb - present participle
 VBN         verb - past participle
 VBP         verb - singular present
 VBZ         verb - 3rd person singular present
-JJ          adjective
 JJR         adjective - comparative
 JJS         adjective - superlative
 RBR         adjective - comparative
@@ -320,13 +318,9 @@ RBS         adjective - superlative
 """
 
 if __name__ == "__main__":
-    clf = MyClassifier(True, False)
+    clf = MyClassifier(True, True)
     clf.train_with_svc()
 
-    text1 = "You must get it for our future."
-    text2 = "In order to obtain the paper, we must buy the paper"
 
-    #clf.predict_single(text2)
-    clf.predict_multiple([text1, text2])
 
 

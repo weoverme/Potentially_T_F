@@ -3,7 +3,7 @@ Application will be the main driver of all activity.
 Any screen which appears will always be loaded up from this module.
 """
 
-from tkinter import *
+import tkinter as tk
 from tkinter.ttk import *
 
 from Main.twitterWrapper import TwitterWrapper
@@ -23,7 +23,7 @@ class Application(Frame):
 
         # concerned with managing the back end
         self.tab_holder = {}
-        self.clf = MyClassifier(load_clf=True)
+        self.clf = MyClassifier(load_clf=True, load_tr_data=True)
 
     def create_widgets(self):
         self.create_main_frame()
@@ -38,6 +38,7 @@ class Application(Frame):
     def create_add_user_frame(self):
         self.add_user_frame = Frame(self.main_frame)
         self.add_user_frame.pack()
+
         self.username_label = Label(self.add_user_frame)
         self.username_label["text"] = "Enter a Twitter Handle Here:"
         self.username_label.pack(side='left', fill='x')
@@ -49,7 +50,7 @@ class Application(Frame):
         get_username_button.pack(side='left')
 
     def create_notebook_frame(self):
-        self.notebook = Notebook(self.main_frame, width=580, height=350, padding=5)
+        self.notebook = Notebook(self.main_frame, width=580, height=360, padding=5)
         self.notebook.pack()
 
     def add_notebook_tab(self):
@@ -65,7 +66,7 @@ class Application(Frame):
             tWrapper = TwitterWrapper(username, 20)
 
             # Create listbox in tab_frame
-            tweet_listbox = Listbox(tab_frame, width=100, height=20, selectmode=SINGLE) # width=X-chars, height=Y-lines
+            tweet_listbox = tk.Listbox(tab_frame, width=100, height=20, selectmode=tk.SINGLE)  # width=X-chars, height=Y-lines
             tweet_listbox.pack()
 
             # create referencing points
@@ -75,8 +76,8 @@ class Application(Frame):
 
             refresh_button = Button(tab_frame, text="Refresh", command=self.update_tweets)
             refresh_button.pack()
-            # set up bindings
 
+            # set up bindings
             tweet_listbox.bind("<<ListboxSelect>>", self.update_desc_contents)
 
     def update_listbox_tweets(self, username, listbox):
@@ -86,14 +87,14 @@ class Application(Frame):
             tw_text = self.tab_holder[username][0].all_tweets[tw_id]
             # append to end of listbox
             try:
-                listbox.insert(END, tw_text)
-            except TclError:
+                listbox.insert(tk.END, tw_text)
+            except tk.TclError:
                 # remove the emojis out of BMP range
                 tw_text = tw_text.encode(encoding='cp1251', errors='ignore').decode(encoding='cp1251')
 
                 # encode text in UTF-8, just in case its not
                 tw_text = tw_text.encode(encoding='utf-8').decode(encoding='utf-8')
-                listbox.insert(END, tw_text)
+                listbox.insert(tk.END, tw_text)
 
     def update_tweets(self):
         """
@@ -101,11 +102,11 @@ class Application(Frame):
         :return:
         """
         # get current tab
-        curr_tab_index = self.notebook.index(tab_id=CURRENT)
+        curr_tab_index = self.notebook.index(tab_id=tk.CURRENT)
         curr_tab = self.notebook.tabs()[curr_tab_index]
 
         # get username
-        username = self.notebook.tab(CURRENT, 'text')
+        username = self.notebook.tab(tk.CURRENT, 'text')
 
         # get listbox
         tw_listbox = self.tab_holder[username][1]
@@ -114,23 +115,45 @@ class Application(Frame):
         self.update_listbox_tweets(username, tw_listbox)
 
     def create_description_frame(self):
-        self.desc_frame = LabelFrame(self.main_frame, text="Tweet Description")
+        self.desc_frame = tk.LabelFrame(self.main_frame, text="Tweet Description")
         self.desc_frame.configure(borderwidth=1)
         self.desc_frame.pack()
 
         self.desc_text_line1 = Label(self.desc_frame) # max width will be 90 characters
-        self.desc_text_line1.pack()
+        self.desc_text_line1.grid(row=0, columnspan=3)
         self.desc_text_line2 = Label(self.desc_frame) # max width will be 50 characters
-        self.desc_text_line2.pack()
+        self.desc_text_line2.grid(row=1, columnspan=3)
 
+        # Create VER/NVER Radio Buttons and variable re: ver/nver
+        ver_v = tk.StringVar()
+        self.ver_radio = tk.Radiobutton(self.desc_frame, text="VER", variable=ver_v, value="VER",
+                                        indicatoron=0, width=10, selectcolor="green")
+        self.nver_radio = tk.Radiobutton(self.desc_frame, text="NVER", variable=ver_v, value="NVER",
+                                         indicatoron=0, width=10, selectcolor="red")
+
+        self.ver_radio.grid(row=2, column=0)
+        self.nver_radio.grid(row=3, column=0)
+
+        # create truthfullness buttons and variable re: real value
+        val_v = tk.StringVar()
+        self.true_radio = tk.Radiobutton(self.desc_frame, text="TRUE", variable=val_v, value='True',
+                                         indicatoron=0, width=10)
+        self.unv_radio = tk.Radiobutton(self.desc_frame, text="N\\A", variable=val_v, value='N\\A',
+                                        indicatoron=0, width=10)
+        self.false_radio = tk.Radiobutton(self.desc_frame, text="FALSE", variable=val_v, value='False',
+                                          indicatoron=0, width=10)
+
+        self.true_radio.grid(row=2, column=2)
+        self.unv_radio.grid(row=3, column=2)
+        self.false_radio.grid(row=4, column=2)
 
     def update_desc_contents(self, event):
         # get current tab
-        curr_tab_index = self.notebook.index(tab_id=CURRENT)
+        curr_tab_index = self.notebook.index(tab_id=tk.CURRENT)
         curr_tab = self.notebook.tabs()[curr_tab_index]
 
         # get username
-        username = self.notebook.tab(CURRENT, 'text')
+        username = self.notebook.tab(tk.CURRENT, 'text')
 
         # get listbox
         tw_listbox = self.tab_holder[username][1]
@@ -140,7 +163,7 @@ class Application(Frame):
 
         # get value of current selection
         new_text = tw_listbox.get(curr_index)
-        print(len(new_text))
+
         # update text in description_frame
         if len(new_text) > 100:
             new_text_list = word_tokenize(new_text)
@@ -149,19 +172,44 @@ class Application(Frame):
             self.desc_text_line2['text'] = ' '.join(new_text_list[((n_words // 2) + 1):])
         else:
             self.desc_text_line1['text'] = new_text
-#        self.desc_text_line1.pack()
+            # make second line empty and not show prev half
+            self.desc_text_line2['text'] = " "
+
+        # Update VER/NVER buttons, via prediction of classifier
+        prediction = self.clf.predict_single(new_text)
+        self.update_ver_nver_prediction(prediction)
+
+    def update_ver_nver_prediction(self, prediction):
+        # select the radio button, according to the prediction value
+        if prediction[0] == "VER":
+            #self.nver_radio.configure(bg=None)
+            self.nver_radio.deselect()
+            self.ver_radio.select()
+            #self.ver_radio.configure(bg=None)
+        else:
+            #self.ver_radio.configure(bg=None)
+            self.ver_radio.deselect()
+            self.nver_radio.select()
+            #self.nver_radio.configure(bg=None)
+
+    def change_ver_nver_value(self):
+        pass
+
 
     def get_username_callback(self):
         val = self.username_ent.get()
-        self.username_ent.delete(0, END)
-        self.username_ent.insert(END, "@")
+        self.username_ent.delete(0, tk.END)
+        self.username_ent.insert(tk.END, "@")
         return val
 
-#####################
-# TODO:
+#######################################################################
+# TODO: Add to self.desc_frame:                                       #
+
+#       2) Taking feedback from above buttons to modify predictions   #
+#######################################################################
 
 if __name__ == '__main__':
-    root = Tk()
+    root = tk.Tk()
     app = Application(root)
     app.mainloop()
 
