@@ -13,7 +13,7 @@ class MyClassifier:
         self.features = self.__load_support_vector_features()
         self.training_data = []
         self.n_samples = 0
-        self.tweets_from_file = self.__load_tweets_from_file()
+        self.all_tweets = self.__load_tweets_from_file() # list not dict
 
         # Classifier loading
         if load_clf:
@@ -24,7 +24,6 @@ class MyClassifier:
         # Training Data loading
         if load_tr_data:
             self.__load_training_data()
-
 
     def __load_tweets_from_file(self):
         # open latest file
@@ -122,9 +121,9 @@ class MyClassifier:
         :return:
         """
 
-        for tweet in self.tweets_from_file:
+        for tweet in self.all_tweets:
             # get the sample and target for each tweet
-            tweet_text, tweet_id = tweet[0], tweet[1]
+            tweet_text = tweet[0]
             curr_sample = self.__get_sample(tweet_text)
             curr_target = self.__get_training_target(curr_sample)
 
@@ -183,27 +182,6 @@ class MyClassifier:
         pred = self.clf.classify_many([test_dict])
         return (pred[0], test_sample)
 
-
-        """
-        WILL BRING BACK ONCE APPLICATION SIDE IS SEMI-WORKING
-        feedback = input("Is this prediction correct? Y/N\t")
-
-        # Make data + target into a tuple
-        if feedback == "Y" or feedback == "y":
-            tup = (test_dict, pred[0])
-        elif feedback == "N" or feedback == "n":
-            # correct the target and make into a tuple
-            if pred[0] == "VER":
-                tup = (test_dict, "NVER")
-            else:
-                tup = (test_dict, "VER")
-
-        # add to self.training_data
-        print(tup)
-        self.training_data.append(tup)
-        self.__save_training_data()
-        """
-
     def predict_multiple(self, test_list):
         """
         Predict more than one sample at a time.
@@ -224,24 +202,77 @@ class MyClassifier:
         # predict
         pred = self.clf.classify_many(test_data)
         return pred
+
+##########
+
+    def update_pred_into_training(self, test_tweet, pred_val):
         """
-        WILL BRING BACK ONCE APPLICATION SIDE IS SEMI-WORKING
+        Adds predicted ( {feat:sample}, target ) to training data
+        then saves the training data
 
-        feedback = input("Are these predictions correct? Y/N\t")
+        if test_text already exists in the training data
+            update the target value instead
+            then save the training data
 
-        # Make data + target into a tuple
-        if feedback == "Y" or feedback == "y":
-            # get individual tuples
-            for i in range(len(test_data)):
-                tup = (test_data[i], pred[i])
 
-                # add to self.training_data
-                self.training_data.append(tup)
-
-        else:
-            # must correct test data manually before adding into training data
-            print("Please predict each separately to add samples into training dataset.")
+        :param test_tweet: a tweet in the form of (tweet_text, tweet_id)
+        :param pred_val: the value of the prediction made by the classifier
+        :return:
         """
+        # a flag to make sure only one part of the code is run
+        updated = False
+
+        # localise
+        test_tweet_text = test_tweet[0]
+
+        # if text exists in training data already, update the target for this tweet
+        for i in range(len(self.all_tweets)):
+            tweet = self.all_tweets[i]
+
+            if test_tweet_text == tweet[0]: # if found
+                test_sample = self.__get_sample(test_tweet_text)
+
+                # make into trainable data format
+                test_dict = {}
+                for j in range(len(self.features)):
+                    test_dict[self.features[j]] = test_sample[j]
+                test_target = pred_val
+
+                tup = (test_dict, test_target)
+
+                # get the current tup for the test_text and replace
+                self.training_data[i] = tup
+
+                # there should only be one tweet with the same text
+                updated = True
+                break
+
+        # if test_text is not in the training data already
+        if not updated:
+            # make into trainable data format
+            test_sample = self.__get_sample(test_tweet_text)
+            test_dict = {}
+            for j in range(len(self.features)):
+                test_dict[self.features[j]] = test_sample[j]
+            test_target = pred_val
+
+            tup = (test_dict, test_target)
+
+            # add tweet to all_tweets and training data
+            # get tweet_id
+
+            self.all_tweets.append(tweet)
+            self.training_data.append(tup)
+
+            # consistency
+            updated = True
+
+        # save the training data to file
+        self.__save_training_data()
+        # train the classifier again
+        self.train_with_svc()
+
+############
 
     def load_clf(self):
         """

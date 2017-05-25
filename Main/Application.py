@@ -125,11 +125,13 @@ class Application(Frame):
         self.desc_text_line2.grid(row=1, columnspan=3)
 
         # Create VER/NVER Radio Buttons and variable re: ver/nver
-        ver_v = tk.StringVar()
-        self.ver_radio = tk.Radiobutton(self.desc_frame, text="VER", variable=ver_v, value="VER",
-                                        indicatoron=0, width=10, selectcolor="green")
-        self.nver_radio = tk.Radiobutton(self.desc_frame, text="NVER", variable=ver_v, value="NVER",
-                                         indicatoron=0, width=10, selectcolor="red")
+        self.ver_v = tk.StringVar()
+        self.ver_radio = tk.Radiobutton(self.desc_frame, text="VER", variable=self.ver_v, value="VER",
+                                        indicatoron=0, width=10, selectcolor="green",
+                                        command=self.update_ver_nver_upon_click)
+        self.nver_radio = tk.Radiobutton(self.desc_frame, text="NVER", variable=self.ver_v, value="NVER",
+                                         indicatoron=0, width=10, selectcolor="red",
+                                         command=self.update_ver_nver_upon_click)
 
         self.ver_radio.grid(row=2, column=0)
         self.nver_radio.grid(row=3, column=0)
@@ -148,22 +150,7 @@ class Application(Frame):
         self.false_radio.grid(row=4, column=2)
 
     def update_desc_contents(self, event):
-        # get current tab
-        curr_tab_index = self.notebook.index(tab_id=tk.CURRENT)
-        curr_tab = self.notebook.tabs()[curr_tab_index]
-
-        # get username
-        username = self.notebook.tab(tk.CURRENT, 'text')
-
-        # get listbox
-        tw_listbox = self.tab_holder[username][1]
-
-        # get index of current selection
-        curr_index = tw_listbox.curselection()
-
-        # get value of current selection
-        new_text = tw_listbox.get(curr_index)
-
+        new_text = self.get_current_tweet_text()
         # update text in description_frame
         if len(new_text) > 100:
             new_text_list = word_tokenize(new_text)
@@ -190,9 +177,44 @@ class Application(Frame):
             self.ver_radio.deselect()
             self.nver_radio.select()
 
-    def change_ver_to_nver(self):
-        pass
+    def update_ver_nver_upon_click(self):
+        # get the predicted value
+        pred_val = self.ver_v.get()
 
+        # get tweet_text
+        new_text = self.get_current_tweet_text()
+
+        # get tweet_id
+        username = self.get_current_tab_username()
+        user_tweet_ids = sorted(self.tab_holder[username][0].all_tweets.keys(), reverse=True)
+        for tw_id in user_tweet_ids:
+            if self.tab_holder[username][0].all_tweets[tw_id] == new_text:
+                break
+        tweet = (new_text, tw_id)
+
+        # update the classifier training data set
+        self.clf.update_pred_into_training(tweet, pred_val)
+
+    def get_current_tweet_text(self):
+        # get current tab
+        curr_tab_index = self.notebook.index(tab_id=tk.CURRENT)
+        curr_tab = self.notebook.tabs()[curr_tab_index]
+
+        # get username
+        username = self.get_current_tab_username()
+
+        # get listbox
+        tw_listbox = self.tab_holder[username][1]
+
+        # get index of current selection
+        curr_index = tw_listbox.curselection()
+
+        # get value of current selection
+        new_text = tw_listbox.get(curr_index)
+        return new_text
+
+    def get_current_tab_username(self):
+        return self.notebook.tab(tk.CURRENT, 'text')
 
     def get_username_callback(self):
         val = self.username_ent.get()
