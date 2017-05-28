@@ -12,11 +12,12 @@ In the most current US Presidential Elections in 2017/2016, one may say that the
 ### Getting Started
 As this application tried to use as few tools as possible, there are just as few dependencies. However, this application is intended for Windows use and has not been tested in Mac OSs.
 
-##### Requirements
+The following must all be installed, in order of:
+
 * [Python 3.4.X](https://www.python.org/ftp/python/3.4.0/python-3.4.0.amd64.msi) - The language and compiler
 * [NumPy](http://www.numpy.org/) - Install with PyPI
-* [SciPy](https://www.scipy.org/) - Navigate to SciPy on http://www.lfd.uci.edu/~gohlke/pythonlibs/ and download                        scipy‑0.19.0‑cp36‑cp36m‑win_amd64.whl
-* [scikit-learn](http://scikit-learn.org/stable/install.html) - See individual installation requirements
+* [SciPy](https://www.scipy.org/) - Navigate to SciPy on http://www.lfd.uci.edu/~gohlke/pythonlibs/ and download                        scipy‑0.19.0‑cp36‑cp36m‑win_amd64.whl, then install this file using PyPI
+* [scikit-learn](http://scikit-learn.org/stable/install.html) - Install with using PyPI, ONLY when the above are all installed.
 * [nltk v3.5](http://www.nltk.org/install.html) - See individual installation requirements
 * [tweepy](https://github.com/tweepy/tweepy/blob/master/README.md) - Install with PyPI
 
