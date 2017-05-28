@@ -1,7 +1,7 @@
 # Identifying Verifiable Statements in Politicians' Twitter Feeds
 ### Product Name: Potentially T/F
 ##### Monash University Computer Science Project 2017
-
+##### Author: Young Rae Cho
 
 
 ### Motivation
@@ -9,10 +9,10 @@ In the current day and age, 'news' is circulated and reported at very high speed
 
 In the most current US Presidential Elections in 2017/2016, one may say that the amount of fake news produced which affected the elections was the most out of all elections. This is a phenomenon which is extremely dangerous, as the Presidential seat may be given to the world's biggest liar or something along the lines of it. Fact-checking organizations, such as PolitiFact.com,  exist in order to verify whether a statement made regarding political issues is speaking of the truth or false (with other classifications in between Truth and False).
 
-## Getting Started
+### Getting Started
 As this application tried to use as few tools as possible, there are just as few dependencies. However, this application is intended for Windows use and has not been tested in Mac OSs.
 
-#### Requirements
+##### Requirements
 * [Python 3.4.X](https://www.python.org/ftp/python/3.4.0/python-3.4.0.amd64.msi) - The language and compiler
 * [NumPy](http://www.numpy.org/) - Install with PyPI
 * [SciPy](https://www.scipy.org/) - Navigate to SciPy on http://www.lfd.uci.edu/~gohlke/pythonlibs/ and download                        scipy‑0.19.0‑cp36‑cp36m‑win_amd64.whl
